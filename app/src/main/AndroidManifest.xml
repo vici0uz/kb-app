@@ -17,7 +17,6 @@
     <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.MANAGE_DOCUMENTS" />
     <uses-permission android:name="android.permission.CAMERA" />
 
 
@@ -79,6 +78,7 @@
             android:authorities="${applicationId}.core.provider.content"
             android:multiprocess="true" />
 
+
         <!-- Sync Provider & Service  // -->
         <provider
             android:name="com.odoo.addons.customers.providers.CustomersSyncProvider"
@@ -97,6 +97,23 @@
             <meta-data
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/customer_sync_adapter" />
+        </service>
+
+        <provider
+            android:name="com.odoo.addons.maquinaria.providers.MaquinariaTrabajoSyncProvider"
+            android:authorities="com.odoo.addons.maquinaria.content.sync.maquinaria_trabajo_linea"
+            android:label="Turnos"
+            android:multiprocess="true"/>
+
+        <service android:name="com.odoo.addons.maquinaria.services.MaquinariaTrabajoSyncService"
+            android:exported="true"
+            android:process=":sync_trabajos">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/maquinaria_sync_adapter"/>
         </service>
 
         <activity
