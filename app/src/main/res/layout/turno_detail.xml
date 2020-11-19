@@ -5,6 +5,36 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <android.support.design.widget.AppBarLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="110dp"
+        android:fitsSystemWindows="true"
+        android:theme="@style/AppBar.Dark">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/turno_collapsing_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:expandedTitleMarginEnd="12dp"
+            app:expandedTitleMarginStart="16dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="@drawable/scrim_top"
+            app:layout_collapseMode="pin" />
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/turno_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:layout_collapseMode="pin"
+            app:popupTheme="@style/AppBar.Dark" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -13,6 +43,5 @@
         <include layout="@layout/turno_detail_items"/>
 
     </android.support.v4.widget.NestedScrollView>
-
 </android.support.design.widget.CoordinatorLayout>
 

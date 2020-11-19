@@ -25,6 +25,39 @@
                 app:fieldName="maquina_id"
                 app:fieldLabelTextAppearance="?android:textAppearanceMedium"
                 app:showLabel="false" />
+
+        </odoo.controls.OForm>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/turno_edit_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingTop="0dp"
+        android:visibility="gone">
+
+        <odoo.controls.OForm
+            android:id="@+id/turnoFormEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            app:modelName="maquinaria.trabajo.linea">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <odoo.controls.OField
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:fieldName="maquina_id"
+                    android:paddingLeft="@dimen/default_8dp"
+                    app:fieldTextAppearance="?android:textAppearanceLarge"
+                    app:showIcon="false"
+                    app:showLabel="false"/>
+            </LinearLayout>
         </odoo.controls.OForm>
     </LinearLayout>
 </LinearLayout>

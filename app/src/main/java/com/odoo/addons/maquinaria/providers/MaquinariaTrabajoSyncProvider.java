@@ -12,7 +12,7 @@ import com.odoo.core.service.OSyncService;
 import com.odoo.core.support.OUser;
 
 public class MaquinariaTrabajoSyncProvider extends BaseModelProvider {
-//    public class CustomerSyncService extends OSyncService {
+
         public static final String TAG = MaquinariaTrabajoSyncProvider.class.getSimpleName();
 
         @Override

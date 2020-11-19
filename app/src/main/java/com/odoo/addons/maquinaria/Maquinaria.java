@@ -2,7 +2,6 @@ package com.odoo.addons.maquinaria;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -13,33 +12,30 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.odoo.BuildConfig;
 import com.odoo.R;
-import com.odoo.addons.customers.Customers;
 import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.base.addons.res.ResPartner;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.list.OCursorListAdapter;
-import com.odoo.core.utils.BitmapUtils;
+import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OControls;
+import com.odoo.core.utils.OCursorUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener,  OCursorListAdapter.OnViewBindListener {
+public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener,  OCursorListAdapter.OnViewBindListener, AdapterView.OnItemClickListener {
     public static final String KEY = Maquinaria.class.getSimpleName();
     private View mView;
     private OCursorListAdapter mAdapter = null;
     private boolean syncRequested = false;
 
-
-
-    //    public static final String AUTHORITY = BuildConfig.APPLICATION_ID + ".provider.content.sync.maquinaria_trabajo_linea";
     @Override
     public List<ODrawerItem> drawerMenus(Context context) {
         List<ODrawerItem> items = new ArrayList<>();
@@ -63,7 +59,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         mAdapter = new OCursorListAdapter(getActivity(), null, R.layout.turno_row_item);
         mAdapter.setOnViewBindListener(this);
         mListaTurnos.setAdapter(mAdapter);
-
+        mListaTurnos.setOnItemClickListener(this);
         setHasFloatingButton(view,R.id.fabButton, mListaTurnos, this);
         getLoaderManager().initLoader(0,null,this);
     }
@@ -91,8 +87,22 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
 
     @Override
     public void onClick(View view) {
-
+        switch (view.getId()){
+            case R.id.fabButton:
+                loadActivity(null);
+                break;
+        }
     }
+
+    private void loadActivity(ODataRow row) {
+        Bundle data = new Bundle();
+        if (row != null) {
+            data = row.getPrimaryBundleData();
+        }
+//        data.putString(CustomerDetails.KEY_PARTNER_TYPE, mType.toString());
+        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
+    }
+
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle data) {
@@ -152,5 +162,11 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
             Toast.makeText(getActivity(), _s(R.string.toast_network_required), Toast.LENGTH_LONG)
                     .show();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+        ODataRow row = OCursorUtils.toDatarow((Cursor) mAdapter.getItem(position));
+        loadActivity(row);
     }
 }
