@@ -2,6 +2,7 @@ package com.odoo.addons.maquinaria;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
@@ -20,15 +21,17 @@ import com.odoo.R;
 import com.odoo.addons.customers.Customers;
 import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.base.addons.res.ResPartner;
+import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.list.OCursorListAdapter;
+import com.odoo.core.utils.BitmapUtils;
 import com.odoo.core.utils.OControls;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener {
+public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener,  OCursorListAdapter.OnViewBindListener {
     public static final String KEY = Maquinaria.class.getSimpleName();
     private View mView;
     private OCursorListAdapter mAdapter = null;
@@ -40,7 +43,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
     @Override
     public List<ODrawerItem> drawerMenus(Context context) {
         List<ODrawerItem> items = new ArrayList<>();
-        items.add(new ODrawerItem(KEY).setTitle("Turnos").setIcon(R.drawable.ic_baseline_history_toggle_off_24));
+        items.add(new ODrawerItem(KEY).setTitle("Turnos").setIcon(R.drawable.ic_baseline_history_toggle_off_24).setInstance(new Maquinaria()));
         return items;
     }
 
@@ -58,9 +61,27 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         mView = view;
         ListView mListaTurnos = (ListView) view.findViewById(R.id.listview);
         mAdapter = new OCursorListAdapter(getActivity(), null, R.layout.turno_row_item);
+        mAdapter.setOnViewBindListener(this);
         mListaTurnos.setAdapter(mAdapter);
+
         setHasFloatingButton(view,R.id.fabButton, mListaTurnos, this);
         getLoaderManager().initLoader(0,null,this);
+    }
+
+    @Override
+    public void onViewBind(View view, Cursor cursor, ODataRow row) {
+//        Bitmap img;
+//        if (row.getString("image_small").equals("false")) {
+//            img = BitmapUtils.getAlphabetImage(getActivity(), row.getString("name"));
+//        } else {
+//            img = BitmapUtils.getBitmapImage(getActivity(), row.getString("image_small"));
+//        }
+//        OControls.setImage(view, R.id.image_small, img);
+        OControls.setText(view, R.id.maquina_id, row.getString("maquina_id"));
+//        OControls.setText(view, R.id.company_name, (row.getString("company_name").equals("false"))
+//                ? "" : row.getString("company_name"));
+//        OControls.setText(view, R.id.email, (row.getString("email").equals("false") ? " "
+//                : row.getString("email")));
     }
 
     @Override
