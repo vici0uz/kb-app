@@ -2,7 +2,9 @@ package com.odoo.addons.maquinaria;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -21,6 +23,7 @@ import odoo.controls.OForm;
 
 public class TurnoDetails extends OdooCompatActivity  {
     public static final String TAG = TurnoDetails.class.getSimpleName();
+    private final String KEY_MODE = "key_edit_mode";
     private Trabajo turnoTrabajo;
     private App app;
     private OForm mForm;
@@ -29,15 +32,26 @@ public class TurnoDetails extends OdooCompatActivity  {
     private ODataRow record = null;
     private Menu mMenu;
     private Toolbar toolbar;
+    private CollapsingToolbarLayout collapsingToolbarLayout;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.turno_detail);
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.turno_collapsing_toolbar);
+
         toolbar = (Toolbar)  findViewById(R.id.turno_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        if (toolbar != null)
+            collapsingToolbarLayout.setTitle("");
+        if (savedInstanceState != null) {
+            mEditMode = savedInstanceState.getBoolean(KEY_MODE);
+        }
         app = (App) getApplicationContext();
         turnoTrabajo = new Trabajo(this, null);
         extras = getIntent().getExtras();
@@ -72,11 +86,11 @@ public class TurnoDetails extends OdooCompatActivity  {
         }
         if (edit) {
             if (!hasRecordInExtra()) {
-//                collapsingToolbarLayout.setTitle("New");
+                collapsingToolbarLayout.setTitle("New");
             }
             mForm = (OForm) findViewById(R.id.turnoFormEdit);
             findViewById(R.id.turno_view_layout).setVisibility(View.GONE);
-            findViewById(R.id.turnoFormEdit).setVisibility(View.VISIBLE);
+            findViewById(R.id.turno_edit_layout).setVisibility(View.VISIBLE);
 //            OField is_company = (OField) findViewById(R.id.is_company_edit);
 //            is_company.setOnValueChangeListener(this);
         } else {
@@ -114,4 +128,25 @@ public class TurnoDetails extends OdooCompatActivity  {
     }
 
     private void checkControls() {}
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.menu_customer_cancel:
+            case R.id.menu_customer_edit:
+                if(hasRecordInExtra()){
+                    mEditMode = !mEditMode;
+                    setMode(mEditMode);
+                    mForm.setEditable(mEditMode);
+                    mForm.initForm(record);
+                } else {
+                    finish();
+                }
+                break;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 }
