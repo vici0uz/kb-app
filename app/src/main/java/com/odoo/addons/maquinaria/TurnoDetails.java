@@ -3,6 +3,7 @@ package com.odoo.addons.maquinaria;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.ImageView;
 import com.odoo.App;
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
+import com.odoo.base.addons.ir.feature.OFileManager;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.support.OdooCompatActivity;
@@ -21,7 +23,7 @@ import android.support.v7.widget.Toolbar;
 import odoo.controls.OField;
 import odoo.controls.OForm;
 
-public class TurnoDetails extends OdooCompatActivity  {
+public class TurnoDetails extends OdooCompatActivity implements View.OnClickListener {
     public static final String TAG = TurnoDetails.class.getSimpleName();
     private final String KEY_MODE = "key_edit_mode";
     private Trabajo turnoTrabajo;
@@ -33,6 +35,8 @@ public class TurnoDetails extends OdooCompatActivity  {
     private Menu mMenu;
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
+    private OFileManager fileManager;
+
 
 
     @Override
@@ -47,6 +51,9 @@ public class TurnoDetails extends OdooCompatActivity  {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        findViewById(R.id.turnoCaptureImage).setOnClickListener(this);
+
+        fileManager = new OFileManager(this);
         if (toolbar != null)
             collapsingToolbarLayout.setTitle("");
         if (savedInstanceState != null) {
@@ -73,7 +80,7 @@ public class TurnoDetails extends OdooCompatActivity  {
     }
 
     private void setMode(Boolean edit) {
-//        findViewById(R.id.captureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
+        findViewById(R.id.turnoCaptureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
         if (mMenu != null) {
             mMenu.findItem(R.id.menu_customer_detail_more).setVisible(!edit);
             mMenu.findItem(R.id.menu_customer_edit).setVisible(!edit);
@@ -85,6 +92,7 @@ public class TurnoDetails extends OdooCompatActivity  {
             color = OStringColorUtil.getStringColor(this, record.getString("maquina_id"));
         }
         if (edit) {
+            Log.i(TAG, "ALAN DEBUG: entra al edit");
             if (!hasRecordInExtra()) {
                 collapsingToolbarLayout.setTitle("New");
             }
@@ -94,6 +102,8 @@ public class TurnoDetails extends OdooCompatActivity  {
 //            OField is_company = (OField) findViewById(R.id.is_company_edit);
 //            is_company.setOnValueChangeListener(this);
         } else {
+            Log.i(TAG, "ALAN DEBUG: NO entra al edit");
+
             mForm = (OForm) findViewById(R.id.turnoForm);
             findViewById(R.id.turno_edit_layout).setVisibility(View.GONE);
             findViewById(R.id.turno_view_layout).setVisibility(View.VISIBLE);
@@ -139,6 +149,7 @@ public class TurnoDetails extends OdooCompatActivity  {
             case R.id.menu_customer_edit:
                 if(hasRecordInExtra()){
                     mEditMode = !mEditMode;
+                    Log.i(TAG, "ALAN DEBUG: el valor de mEditMode "+ mEditMode.toString());
                     setMode(mEditMode);
                     mForm.setEditable(mEditMode);
                     mForm.initForm(record);
@@ -148,5 +159,14 @@ public class TurnoDetails extends OdooCompatActivity  {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.turnoCaptureImage:
+                fileManager.requestForFile(OFileManager.RequestType.CAPTURE_IMAGE);
+                break;
+        }
     }
 }
