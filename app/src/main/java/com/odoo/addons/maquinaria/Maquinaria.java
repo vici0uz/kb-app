@@ -18,7 +18,7 @@ import android.widget.Toast;
 
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
-import com.odoo.base.addons.res.ResPartner;
+//import com.odoo.base.addons.res.ResPartner;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.drawer.ODrawerItem;
@@ -30,7 +30,7 @@ import com.odoo.core.utils.OCursorUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener,  OCursorListAdapter.OnViewBindListener, AdapterView.OnItemClickListener {
+public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, OCursorListAdapter.OnViewBindListener, AdapterView.OnItemClickListener {
     public static final String KEY = Maquinaria.class.getSimpleName();
     private View mView;
     private OCursorListAdapter mAdapter = null;
@@ -155,7 +155,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
     @Override
     public void onRefresh() {
         if (inNetwork()) {
-            parent().sync().requestSync(ResPartner.AUTHORITY);
+            parent().sync().requestSync(Trabajo.AUTHORITY);
             setSwipeRefreshing(true);
         } else {
             hideRefreshingProgress();

@@ -74,7 +74,7 @@
                 <odoo.controls.OField
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    fieldName="odometro_inicial"
+                    app:fieldName="odometro_inicial"
                     app:fieldTextAppearance="?android:textAppearanceMedium"
                     app:showLabel="true"/>
 

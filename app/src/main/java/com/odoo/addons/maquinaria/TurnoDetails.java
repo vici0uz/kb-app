@@ -14,10 +14,13 @@ import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.base.addons.ir.feature.OFileManager;
 import com.odoo.core.orm.ODataRow;
+import com.odoo.core.orm.OModel;
+import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.support.OdooCompatActivity;
 import com.odoo.core.utils.OStringColorUtil;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 
 import odoo.controls.OField;
@@ -71,21 +74,15 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
         return extras != null && extras.containsKey(OColumn.ROW_ID);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_customer_detail, menu);
-        mMenu = menu;
-        setMode(mEditMode);
-        return true;
-    }
+
 
     private void setMode(Boolean edit) {
         findViewById(R.id.turnoCaptureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
         if (mMenu != null) {
-            mMenu.findItem(R.id.menu_customer_detail_more).setVisible(!edit);
-            mMenu.findItem(R.id.menu_customer_edit).setVisible(!edit);
-            mMenu.findItem(R.id.menu_customer_save).setVisible(edit);
-            mMenu.findItem(R.id.menu_customer_cancel).setVisible(edit);
+//            mMenu.findItem(R.id.menu_t_detail_more).setVisible(!edit);
+            mMenu.findItem(R.id.menu_turno_edit).setVisible(!edit);
+            mMenu.findItem(R.id.menu_turno_save).setVisible(edit);
+            mMenu.findItem(R.id.menu_turno_cancel).setVisible(edit);
         }
         int color = Color.DKGRAY;
         if (record != null) {
@@ -120,12 +117,13 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
         } else {
             int rowId = extras.getInt(OColumn.ROW_ID);
             record = turnoTrabajo.browse(rowId);
+            Log.i(TAG, "ALAN DEBUG: el valor de record"+ record.getString(OColumn.ROW_ID));
 //            record.put("full_address", resPartner.getAddress(record));
             checkControls();
             setMode(mEditMode);
             mForm.setEditable(mEditMode);
             mForm.initForm(record);
-//            collapsingToolbarLayout.setTitle(record.getString("name"));
+            collapsingToolbarLayout.setTitle(record.getString("maquina_id"));
 //            setCustomerImage();
 //            if (record.getInt("id") != 0 && record.getString("large_image").equals("false")) {
 //                CustomerDetails.BigImageLoader bigImageLoader = new CustomerDetails.BigImageLoader();
@@ -145,14 +143,35 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
             case android.R.id.home:
                 finish();
                 break;
-            case R.id.menu_customer_cancel:
-            case R.id.menu_customer_edit:
+            case R.id.menu_turno_save:
+                OValues values = mForm.getValues();
+                if(values != null){
+                    if (record != null){
+                        turnoTrabajo.update(record.getInt(OColumn.ROW_ID), values);
+                        Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
+                        mEditMode = !mEditMode;
+                        setupToolbar();
+                        turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
+//                        if (inNetwork()) {
+//                            parent().sync().requestSync(Trabajo.AUTHORITY);
+//                            setSwipeRefreshing(true);
+//                        }
+                    } else {
+                        final int row_id = turnoTrabajo.insert(values);
+                        if (row_id != OModel.INVALID_ROW_ID){
+                            finish();
+                        }
+                    }
+                }
+            case R.id.menu_turno_cancel:
+            case R.id.menu_turno_edit:
                 if(hasRecordInExtra()){
                     mEditMode = !mEditMode;
                     Log.i(TAG, "ALAN DEBUG: el valor de mEditMode "+ mEditMode.toString());
                     setMode(mEditMode);
                     mForm.setEditable(mEditMode);
                     mForm.initForm(record);
+
                 } else {
                     finish();
                 }
@@ -161,6 +180,13 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_turno_detail, menu);
+        mMenu = menu;
+        setMode(mEditMode);
+        return true;
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()){
