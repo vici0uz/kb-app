@@ -21,6 +21,8 @@ import com.odoo.addons.maquinaria.models.Trabajo;
 //import com.odoo.base.addons.res.ResPartner;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
+import com.odoo.core.support.addons.fragment.IOnSearchViewChangeListener;
+import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.list.OCursorListAdapter;
 import com.odoo.core.utils.IntentUtils;
@@ -30,7 +32,7 @@ import com.odoo.core.utils.OCursorUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, OCursorListAdapter.OnViewBindListener, AdapterView.OnItemClickListener {
+public class Maquinaria extends BaseFragment implements View.OnClickListener, LoaderManager.LoaderCallbacks<Cursor>, SwipeRefreshLayout.OnRefreshListener, OCursorListAdapter.OnViewBindListener, AdapterView.OnItemClickListener, IOnSearchViewChangeListener, ISyncStatusObserverListener {
     public static final String KEY = Maquinaria.class.getSimpleName();
     private View mView;
     private OCursorListAdapter mAdapter = null;
@@ -47,7 +49,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        setHasOptionsMenu(true);
-//        setHasSyncStatusObserver(KEY, this.db());
+        setHasSyncStatusObserver(KEY, this,db());
         return inflater.inflate(R.layout.common_listview, container,false);
     }
 
@@ -168,5 +170,21 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
     public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
         ODataRow row = OCursorUtils.toDatarow((Cursor) mAdapter.getItem(position));
         loadActivity(row);
+    }
+
+    @Override
+    public boolean onSearchViewTextChange(String newFilter) {
+        return false;
+    }
+
+    @Override
+    public void onSearchViewClose() {
+
+    }
+
+    @Override
+    public void onStatusChange(Boolean refreshing) {
+        getLoaderManager().restartLoader(0, null, this);
+
     }
 }

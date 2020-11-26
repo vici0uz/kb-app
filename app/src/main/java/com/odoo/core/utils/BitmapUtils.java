@@ -31,6 +31,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.text.TextPaint;
 import android.util.Base64;
+import android.util.Log;
 
 import com.odoo.R;
 
@@ -116,8 +117,16 @@ public class BitmapUtils {
     }
 
     public static Bitmap getAlphabetImage(Context context, String content) {
-        Resources res = context.getResources();
+//        Resources res = context.getResources();
+        Resources res = context.getApplicationContext().getResources();
+
+//        Bitmap mDefaultBitmap = BitmapFactory.decodeResource(res, android.R.drawable.sym_def_app_icon);
         Bitmap mDefaultBitmap = BitmapFactory.decodeResource(res, android.R.drawable.sym_def_app_icon);
+        if (mDefaultBitmap == null){
+            Log.e("ALAN DEBUG", "Fallo decode"+ res + " " + res.toString());
+//            mDefaultBitmap = mDefaultBitmap.t
+        }
+
         int width = mDefaultBitmap.getWidth();
         int height = mDefaultBitmap.getHeight();
         TextPaint mPaint = new TextPaint();

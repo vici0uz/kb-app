@@ -102,7 +102,7 @@ public class Customers extends BaseFragment implements ISyncStatusObserverListen
     public void onViewBind(View view, Cursor cursor, ODataRow row) {
         Bitmap img;
         if (row.getString("image_small").equals("false")) {
-            img = BitmapUtils.getAlphabetImage(getActivity(), row.getString("name"));
+            img = BitmapUtils.getAlphabetImage(getContext(), row.getString("name"));
         } else {
             img = BitmapUtils.getBitmapImage(getActivity(), row.getString("image_small"));
         }
