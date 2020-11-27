@@ -1,5 +1,6 @@
 package com.odoo.addons.maquinaria;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -29,6 +30,8 @@ import odoo.controls.OForm;
 public class TurnoDetails extends OdooCompatActivity implements View.OnClickListener {
     public static final String TAG = TurnoDetails.class.getSimpleName();
     private final String KEY_MODE = "key_edit_mode";
+    private final String KEY_NEW_IMAGE = "key_new_image";
+
     private Trabajo turnoTrabajo;
     private App app;
     private OForm mForm;
@@ -39,7 +42,9 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
     private Toolbar toolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private OFileManager fileManager;
+    private String newImage = null;
 
+    private ImageView primerOdometro = null;
 
 
     @Override
@@ -54,6 +59,7 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+
         findViewById(R.id.turnoCaptureImage).setOnClickListener(this);
 
         fileManager = new OFileManager(this);
@@ -61,6 +67,7 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
             collapsingToolbarLayout.setTitle("");
         if (savedInstanceState != null) {
             mEditMode = savedInstanceState.getBoolean(KEY_MODE);
+            newImage = savedInstanceState.getString(KEY_NEW_IMAGE);
         }
         app = (App) getApplicationContext();
         turnoTrabajo = new Trabajo(this, null);
@@ -77,6 +84,7 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
 
 
     private void setMode(Boolean edit) {
+        Log.i(TAG, "ALAN DEBUG el valor de edit"+ edit.toString());
         findViewById(R.id.turnoCaptureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
         if (mMenu != null) {
 //            mMenu.findItem(R.id.menu_t_detail_more).setVisible(!edit);
@@ -146,12 +154,16 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
             case R.id.menu_turno_save:
                 OValues values = mForm.getValues();
                 if(values != null){
+                    if (newImage != null){
+                        values.put("odometro_inicial_imagen", newImage);
+                    }
                     if (record != null){
                         turnoTrabajo.update(record.getInt(OColumn.ROW_ID), values);
                         Toast.makeText(this, "Information saved", Toast.LENGTH_LONG).show();
                         mEditMode = !mEditMode;
                         setupToolbar();
                         turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
+
 //                        if (inNetwork()) {
 //                            parent().sync().requestSync(Trabajo.AUTHORITY);
 //                            setSwipeRefreshing(true);
@@ -163,6 +175,7 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
                         }
                     }
                 }
+                break;
             case R.id.menu_turno_cancel:
             case R.id.menu_turno_edit:
                 if(hasRecordInExtra()){
@@ -193,6 +206,26 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
             case R.id.turnoCaptureImage:
                 fileManager.requestForFile(OFileManager.RequestType.CAPTURE_IMAGE);
                 break;
+        }
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(KEY_MODE, mEditMode);
+        outState.putString(KEY_NEW_IMAGE, newImage);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        OValues values = fileManager.handleResult(requestCode, resultCode, data);
+        if (values != null && !values.contains("size_limit_exceed")){
+            newImage = values.getString("datas");
+            Toast.makeText(this, "joder hay foto",Toast.LENGTH_LONG).show();
+        }
+        else if (values != null){
+            Toast.makeText(this, "Imagen muy grande", Toast.LENGTH_LONG).show();
         }
     }
 }

@@ -39,6 +39,16 @@
                 app:fieldName="odometro_inicial_imagen"
                 app:showLabel="true"/>
 
+            <odoo.controls.OField
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:fieldName="odometro_final"/>
+
+            <odoo.controls.OField
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:fieldName="odometro_final_imagen"/>
+
         </odoo.controls.OForm>
     </LinearLayout>
 
@@ -83,6 +93,17 @@
                     android:layout_height="wrap_content"
                     app:fieldName="odometro_inicial_imagen"
                     app:showLabel="true"/>
+
+                <odoo.controls.OField
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:fieldName="odometro_final"/>
+
+                <odoo.controls.OField
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:fieldName="odometro_final_imagen"/>
+
             </LinearLayout>
         </odoo.controls.OForm>
     </LinearLayout>

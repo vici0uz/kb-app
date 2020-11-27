@@ -75,6 +75,15 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
 //            img = BitmapUtils.getBitmapImage(getActivity(), row.getString("image_small"));
 //        }
 //        OControls.setImage(view, R.id.image_small, img);
+        switch (row.getString("status")){
+            case "cerrado":
+                OControls.setGone(view, R.id.turno_abierto);
+                break;
+            case "abierto":
+            case "mitad":
+                OControls.setGone(view, R.id.turno_fijado);
+                break;
+        }
         OControls.setText(view, R.id.maquina_id, row.getString("maquina_id"));
 //        OControls.setText(view, R.id.company_name, (row.getString("company_name").equals("false"))
 //                ? "" : row.getString("company_name"));

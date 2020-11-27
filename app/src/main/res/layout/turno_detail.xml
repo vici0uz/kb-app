@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#fff"
-    android:fitsSystemWindows="true"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
+    android:fitsSystemWindows="true"
     tools:context=".addons.maquinaria.TurnoDetails">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/turno_detail_appbar"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
+        android:layout_height="340dp"
         android:fitsSystemWindows="true"
         android:theme="@style/AppBar.Dark">
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/turno_collapsing_toolbar"
             android:layout_width="match_parent"
@@ -47,7 +47,6 @@
         <include layout="@layout/turno_detail_items"/>
 
     </android.support.v4.widget.NestedScrollView>
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/turnoCaptureImage"
         android:layout_width="wrap_content"
@@ -55,6 +54,6 @@
         android:layout_marginRight="@dimen/default_16dp"
         android:src="@drawable/ic_action_camera"
         app:layout_anchor="@id/turno_detail_appbar"
-        app:layout_anchorGravity="bottom|right|end" />
+        app:layout_anchorGravity="bottom|right|end"/>
 </android.support.design.widget.CoordinatorLayout>
 

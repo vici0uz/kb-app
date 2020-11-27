@@ -25,6 +25,18 @@
                 android:orientation="horizontal"
                 android:layout_height="wrap_content">
 
+                <ImageView
+                    android:id="@+id/turno_fijado"
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_lock_24"/>
+
+                <ImageView
+                    android:id="@+id/turno_abierto"
+                    android:layout_width="32dp"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_pending_24"/>
+
                 <TextView
                     android:id="@+id/maquina_id"
                     android:textAppearance="?android:textAppearanceMedium"
