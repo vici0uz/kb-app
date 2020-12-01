@@ -29,6 +29,13 @@
             <odoo.controls.OField
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:fieldName="trabajo_destino"
+                app:fieldTextAppearance="?android:textAppearanceMedium"
+                app:showLabel="false"/>
+
+            <odoo.controls.OField
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 app:fieldName="odometro_inicial"
                 app:fieldTextAppearance="?android:textAppearanceMedium"
                 app:showLabel="true"/>
@@ -53,7 +60,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/turno_edit_layout"
+        android:id="@+id/turno_inicial_edit_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clipToPadding="false"
@@ -61,7 +68,7 @@
         android:visibility="gone">
 
         <odoo.controls.OForm
-            android:id="@+id/turnoFormEdit"
+            android:id="@+id/turnoInicialFormEdit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#ffffff"
@@ -93,6 +100,30 @@
                     android:layout_height="wrap_content"
                     app:fieldName="odometro_inicial_imagen"
                     app:showLabel="true"/>
+
+            </LinearLayout>
+        </odoo.controls.OForm>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/turno_final_edit_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clipToPadding="false"
+        android:paddingTop="0dp"
+        android:visibility="gone">
+
+        <odoo.controls.OForm
+            android:id="@+id/turnoFinalFormEdit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#ffffff"
+            android:orientation="vertical"
+            app:modelName="maquinaria.trabajo.linea">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
                 <odoo.controls.OField
                     android:layout_width="match_parent"

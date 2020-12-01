@@ -121,6 +121,8 @@
             android:windowSoftInputMode="adjustPan" />
 
         <activity android:name=".addons.maquinaria.TurnoDetails"/>
+
+        <activity android:name=".addons.maquinaria.wizard.Wizard"/>
     </application>
 
 </manifest>

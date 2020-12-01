@@ -29,6 +29,7 @@ public class Trabajo extends OModel {
             .addSelection("abierto","Abierto")
             .addSelection("mitad", "Mitad")
             .addSelection("cerrado", "Cerrado");
+    OColumn trabajo_destino = new OColumn("Lugar de trabajo", Destino.class, OColumn.RelationType.ManyToOne);
 
     public Trabajo(Context context, OUser user) {
         super(context, "maquinaria.trabajo.linea", user);

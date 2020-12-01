@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
 //import com.odoo.base.addons.res.ResPartner;
+import com.odoo.addons.maquinaria.wizard.Wizard;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.IOnSearchViewChangeListener;
@@ -102,6 +103,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
             case R.id.fabButton:
                 loadActivity(null);
                 break;
+//                IntentUtils.startActivity(getContext(), Wizard.class, null);
         }
     }
 
@@ -111,7 +113,8 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
             data = row.getPrimaryBundleData();
         }
 //        data.putString(CustomerDetails.KEY_PARTNER_TYPE, mType.toString());
-        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
+//        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
+        IntentUtils.startActivity(getActivity(), Wizard.class, data);
     }
 
 

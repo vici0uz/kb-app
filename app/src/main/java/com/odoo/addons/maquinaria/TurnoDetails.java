@@ -24,7 +24,6 @@ import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 
-import odoo.controls.OField;
 import odoo.controls.OForm;
 
 public class TurnoDetails extends OdooCompatActivity implements View.OnClickListener {
@@ -84,8 +83,7 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
 
 
     private void setMode(Boolean edit) {
-        Log.i(TAG, "ALAN DEBUG el valor de edit"+ edit.toString());
-        findViewById(R.id.turnoCaptureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
+//        findViewById(R.id.turnoCaptureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
         if (mMenu != null) {
 //            mMenu.findItem(R.id.menu_t_detail_more).setVisible(!edit);
             mMenu.findItem(R.id.menu_turno_edit).setVisible(!edit);
@@ -101,16 +99,32 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
             if (!hasRecordInExtra()) {
                 collapsingToolbarLayout.setTitle("New");
             }
-            mForm = (OForm) findViewById(R.id.turnoFormEdit);
-            findViewById(R.id.turno_view_layout).setVisibility(View.GONE);
-            findViewById(R.id.turno_edit_layout).setVisibility(View.VISIBLE);
+            switch (record.getString("status")){
+                case "abierto":
+                    mForm = (OForm) findViewById(R.id.turnoInicialFormEdit);
+                    findViewById(R.id.turno_view_layout).setVisibility(View.GONE);
+                    findViewById(R.id.turno_inicial_edit_layout).setVisibility(View.VISIBLE);
+                    findViewById(R.id.turno_final_edit_layout).setVisibility(View.GONE);
+                    break;
+                case "mitad":
+                    mForm = (OForm) findViewById(R.id.turnoFinalFormEdit);
+                    findViewById(R.id.turno_view_layout).setVisibility(View.GONE);
+                    findViewById(R.id.turno_inicial_edit_layout).setVisibility(View.GONE);
+                    findViewById(R.id.turno_final_edit_layout).setVisibility(View.VISIBLE);
+                    break;
+                case "cerrado":
+                    mForm = (OForm) findViewById(R.id.turnoForm);
+                    findViewById(R.id.turno_inicial_edit_layout).setVisibility(View.GONE);
+                    findViewById(R.id.turno_final_edit_layout).setVisibility(View.GONE);
+                    findViewById(R.id.turno_view_layout).setVisibility(View.VISIBLE);
+            }
+
 //            OField is_company = (OField) findViewById(R.id.is_company_edit);
 //            is_company.setOnValueChangeListener(this);
         } else {
-            Log.i(TAG, "ALAN DEBUG: NO entra al edit");
-
             mForm = (OForm) findViewById(R.id.turnoForm);
-            findViewById(R.id.turno_edit_layout).setVisibility(View.GONE);
+            findViewById(R.id.turno_inicial_edit_layout).setVisibility(View.GONE);
+            findViewById(R.id.turno_final_edit_layout).setVisibility(View.GONE);
             findViewById(R.id.turno_view_layout).setVisibility(View.VISIBLE);
         }
         setColor(color);
@@ -125,18 +139,12 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
         } else {
             int rowId = extras.getInt(OColumn.ROW_ID);
             record = turnoTrabajo.browse(rowId);
-            Log.i(TAG, "ALAN DEBUG: el valor de record"+ record.getString(OColumn.ROW_ID));
 //            record.put("full_address", resPartner.getAddress(record));
             checkControls();
             setMode(mEditMode);
             mForm.setEditable(mEditMode);
             mForm.initForm(record);
             collapsingToolbarLayout.setTitle(record.getString("maquina_id"));
-//            setCustomerImage();
-//            if (record.getInt("id") != 0 && record.getString("large_image").equals("false")) {
-//                CustomerDetails.BigImageLoader bigImageLoader = new CustomerDetails.BigImageLoader();
-//                bigImageLoader.execute(record.getInt("id"));
-//            }
         }
     }
     private void setColor(int color) {
@@ -155,7 +163,11 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
                 OValues values = mForm.getValues();
                 if(values != null){
                     if (newImage != null){
-                        values.put("odometro_inicial_imagen", newImage);
+                        if (record.getString("status") == "mitad")
+                            Log.i(TAG, "ALAN va por la mitad");
+                            values.put("odometro_final_imagen", newImage);
+                        if (record.getString("status") == "abierto")
+                            values.put("odometro_inicial_imagen", newImage);
                     }
                     if (record != null){
                         turnoTrabajo.update(record.getInt(OColumn.ROW_ID), values);
@@ -163,11 +175,6 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
                         mEditMode = !mEditMode;
                         setupToolbar();
                         turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
-
-//                        if (inNetwork()) {
-//                            parent().sync().requestSync(Trabajo.AUTHORITY);
-//                            setSwipeRefreshing(true);
-//                        }
                     } else {
                         final int row_id = turnoTrabajo.insert(values);
                         if (row_id != OModel.INVALID_ROW_ID){
@@ -180,7 +187,6 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
             case R.id.menu_turno_edit:
                 if(hasRecordInExtra()){
                     mEditMode = !mEditMode;
-                    Log.i(TAG, "ALAN DEBUG: el valor de mEditMode "+ mEditMode.toString());
                     setMode(mEditMode);
                     mForm.setEditable(mEditMode);
                     mForm.initForm(record);
