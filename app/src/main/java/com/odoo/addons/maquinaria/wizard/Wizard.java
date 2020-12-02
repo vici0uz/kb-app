@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.nicolkill.validator.NumberValidator;
@@ -69,9 +70,12 @@ public class Wizard extends OdooCompatActivity implements View.OnClickListener {
             coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
             coordinatorLayout.showIndicators(true);
             coordinatorLayout.setScrollingEnabled(true);
-            coordinatorLayout.addPage(R.layout.wizard_layout, R.layout.wizard_layout2);
+            coordinatorLayout.addPage(R.layout.wizard_layout, R.layout.wizard_layout2, R.layout.wizard_layout3, R.layout.wizard_layout4, R.layout.wizard_layout5);
+            TimePicker timePicker = (TimePicker) findViewById(R.id.time_picker_horas);
+            timePicker.setIs24HourView(true);
 
-        setListeners();
+
+            setListeners();
 
     }
 

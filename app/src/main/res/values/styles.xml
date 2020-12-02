@@ -34,4 +34,13 @@
         <item name="android:paddingBottom">30dp</item>
         <item name="android:clipToPadding">false</item>
     </style>
+
+    <style name="pagina_recopilacion">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:paddingTop">100dp</item>
+        <item name="android:paddingBottom">30dp</item>
+        <item name="android:clipToPadding">false</item>
+        <item name="android:background">@color/android_red</item>
+    </style>
 </resources>

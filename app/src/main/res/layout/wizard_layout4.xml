@@ -1,0 +1,21 @@
+<com.redbooth.WelcomePageLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/welcome_page"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:clipToPadding="false">
+
+        <EditText
+
+            android:id="@+id/text_trabajo_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:ignore="MissingPrefix"
+            android:background="@color/body_text_1_inverse"/>
+
+    </RelativeLayout>
+</com.redbooth.WelcomePageLayout>
