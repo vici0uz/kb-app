@@ -38,7 +38,7 @@
                     android:src="@drawable/ic_baseline_pending_24"/>
 
                 <TextView
-                    android:id="@+id/maquina_id"
+                    android:id="@+id/maquina"
                     android:textAppearance="?android:textAppearanceMedium"
                     android:textColor="@color/body_text_1"
                     android:fontFamily="@string/font_normal"

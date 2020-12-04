@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
 //import com.odoo.base.addons.res.ResPartner;
+import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.addons.maquinaria.wizard.Wizard;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
@@ -85,7 +87,8 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                 OControls.setGone(view, R.id.turno_fijado);
                 break;
         }
-        OControls.setText(view, R.id.maquina_id, row.getString("maquina_id"));
+        Log.i("ALAN DEBUG", row.getString("maquina"));
+        OControls.setText(view, R.id.maquina, row.getString("maquina"));
 //        OControls.setText(view, R.id.company_name, (row.getString("company_name").equals("false"))
 //                ? "" : row.getString("company_name"));
 //        OControls.setText(view, R.id.email, (row.getString("email").equals("false") ? " "
@@ -111,10 +114,14 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         Bundle data = new Bundle();
         if (row != null) {
             data = row.getPrimaryBundleData();
+            IntentUtils.startActivity(getActivity(), Wizard.class, data);
+        }
+        else {
+            IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
         }
 //        data.putString(CustomerDetails.KEY_PARTNER_TYPE, mType.toString());
 //        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
-        IntentUtils.startActivity(getActivity(), Wizard.class, data);
+
     }
 
 
@@ -138,6 +145,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                     OControls.setGone(mView, R.id.loadingProgress);
                     OControls.setVisible(mView, R.id.swipe_container);
                     OControls.setGone(mView, R.id.data_list_no_item);
+//                    OControls.setGone(mView, R.id.fabButton);
                     setHasSwipeRefreshView(mView, R.id.swipe_container, Maquinaria.this);
                 }
             }, 500);
