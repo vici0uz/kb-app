@@ -7,10 +7,15 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:clipToPadding="false">
-
         <Spinner
-            android:spinnerMode="dropdown"
+            android:id="@+id/spinner_maquina"
+            android:spinnerMode="dialog"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:background="@color/body_text_3"
+            android:prompt="@string/select_item"/>
+
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

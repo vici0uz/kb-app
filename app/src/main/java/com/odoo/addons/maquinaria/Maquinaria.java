@@ -87,7 +87,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                 OControls.setGone(view, R.id.turno_fijado);
                 break;
         }
-        Log.i("ALAN DEBUG", row.getString("maquina"));
+//        Log.i("ALAN DEBUG", row.getString("maquina"));
         OControls.setText(view, R.id.maquina, row.getString("maquina"));
 //        OControls.setText(view, R.id.company_name, (row.getString("company_name").equals("false"))
 //                ? "" : row.getString("company_name"));
@@ -131,7 +131,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         List<String> args = new ArrayList<>();
         String selection = (args.size() > 0) ? where : null;
         String[] selectionArgs = (args.size() > 0) ? args.toArray(new String[args.size()]) : null;
-
+        Log.i("ALAN DEBUG where", where);
         return new CursorLoader(getActivity(), db().uri(), null, selection, selectionArgs, "maquina_id" );
     }
 

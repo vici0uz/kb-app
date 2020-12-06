@@ -14,14 +14,38 @@
         app:indicatorUnselected="#99b7b7b7"
         app:indicatorSelected="#bfb7b7b7"/>
 
-<!--    <Button-->
-<!--        style="?attr/borderlessButtonStyle"-->
-<!--        android:id="@+id/skip"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="skip"-->
-<!--        android:textColor="#fff"-->
-<!--        android:layout_alignParentRight="true"-->
-<!--        android:layout_marginTop="20dp"/>-->
+    <Button
+        style="?attr/borderlessButtonStyle"
+        android:id="@+id/back"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="back"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        style="?attr/borderlessButtonStyle"
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="next"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"/>
+
+    <Button
+        style="?attr/borderlessButtonStyle"
+        android:id="@+id/end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Finalizar"
+        android:textColor="#fff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:visibility="gone"/>
 
 </RelativeLayout>

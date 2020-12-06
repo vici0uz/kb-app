@@ -8,19 +8,11 @@
         android:orientation="vertical"
         android:clipToPadding="false">
 
-
-        <TextView
+        <ImageButton
+            android:id="@+id/btn_registrar_odometro_inicial_imagen"
+            android:src="@drawable/ic_baseline_add_a_photo_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inicio del turno"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Información recopilada"/>
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
-
+            android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

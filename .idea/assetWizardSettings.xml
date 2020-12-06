@@ -326,7 +326,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="file:$PROJECT_DIR$/../.android-sdk/icons/material/materialicons/pending/baseline_pending_24.xml" />
+                                      <entry key="url" value="file:$PROJECT_DIR$/../.android-sdk/icons/material/materialicons/add_a_photo/baseline_add_a_photo_24.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -336,7 +336,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="ic_baseline_pending_24" />
+                            <entry key="color" value="ffffff" />
+                            <entry key="outputName" value="ic_baseline_add_a_photo_24" />
                           </map>
                         </option>
                       </PersistentState>
