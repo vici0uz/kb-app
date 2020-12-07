@@ -1,26 +1,52 @@
 <com.redbooth.WelcomePageLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/welcome_page"
-    >
+    style="@style/welcome_page">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:clipToPadding="false">
 
-
         <TextView
+            android:id="@+id/label_odometro_inicial"
+            android:text="Registre el odometro actual y tome una foto para el registro"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:fontFamily="@string/font_normal"
+            android:layout_width="350sp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="20dp"/>
+
+        <EditText
+            android:id="@+id/entrada_odometro_inicial"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:background="@android:color/white"
+            android:layout_below="@id/label_odometro_inicial"
+            android:layout_marginTop="20dp"
+            android:layout_centerHorizontal="true"/>
+
+        <ImageButton
+            android:id="@+id/btn_registrar_odometro_inicial_imagen"
+            android:src="@drawable/ic_baseline_add_a_photo_24"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inicio del turno"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@id/entrada_odometro_inicial"/>
 
-        <TextView
-            android:layout_width="wrap_content"
+        <ImageView
+
+            android:id="@+id/odometro_inicial_img_view"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:text="Información recopilada"/>
-<!--        <Button-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"/>-->
+            android:layout_centerHorizontal="true"
+
+            android:layout_below="@id/btn_registrar_odometro_inicial_imagen"/>
 
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

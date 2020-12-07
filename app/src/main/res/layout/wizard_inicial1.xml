@@ -14,7 +14,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
-            android:background="@color/body_text_3"
+            android:background="#82F2E7"
             android:prompt="@string/select_item"/>
 
     </RelativeLayout>

@@ -7,7 +7,7 @@ android {
         useLibrary 'org.apache.http.legacy'
         manifestPlaceholders = [applicationName: "KB"]
         applicationId "com.odoo"
-        minSdkVersion 15
+        minSdkVersion 19
         targetSdkVersion 25
         versionCode 7
         versionName "2.3.0"
