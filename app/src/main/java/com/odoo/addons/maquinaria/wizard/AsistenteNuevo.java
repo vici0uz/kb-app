@@ -152,7 +152,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                        Toast.makeText(this, getResources().getString(R.string.take_odometro_pic), Toast.LENGTH_SHORT).show();
                    }
                    else if(!isEmpty(entradaOdometro) && !newImage.isEmpty()){
-                       int odometro_inicial = Integer.parseInt(entradaOdometro.getText().toString());
+                       float odometro_inicial = Float.parseFloat(entradaOdometro.getText().toString());
                        values.put("odometro_inicial", odometro_inicial);
                        values.put("odometro_inicial_imagen", newImage);
                        coordinatorLayout.setCurrentPage(page+1,true);
@@ -208,28 +208,28 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         }
     }
 
-    public class CustomAdapter extends ArrayAdapter<String> {
-
-        private int hidingItemIndex;
-
-        CustomAdapter(Context context, int textViewResourceId, List<String> objects, int hidingItemIndex) {
-            super(context, textViewResourceId, objects);
-            this.hidingItemIndex = hidingItemIndex;
-        }
-
-        @Override
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-            View v = null;
-            if (position == hidingItemIndex) {
-                TextView tv = new TextView(getContext());
-                tv.setVisibility(View.GONE);
-                v = tv;
-            } else {
-                v = super.getDropDownView(position, null, parent);
-            }
-            return v;
-        }
-    }
+//    public class CustomAdapter extends ArrayAdapter<String> {
+//
+//        private int hidingItemIndex;
+//
+//        CustomAdapter(Context context, int textViewResourceId, List<String> objects, int hidingItemIndex) {
+//            super(context, textViewResourceId, objects);
+//            this.hidingItemIndex = hidingItemIndex;
+//        }
+//
+//        @Override
+//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+//            View v = null;
+//            if (position == hidingItemIndex) {
+//                TextView tv = new TextView(getContext());
+//                tv.setVisibility(View.GONE);
+//                v = tv;
+//            } else {
+//                v = super.getDropDownView(position, null, parent);
+//            }
+//            return v;
+//        }
+//    }
 
     private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;

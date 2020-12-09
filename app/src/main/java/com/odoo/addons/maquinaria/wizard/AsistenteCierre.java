@@ -20,7 +20,7 @@ import com.odoo.core.support.OdooCompatActivity;
 import com.redbooth.WelcomeCoordinatorLayout;
 
 
-public class Wizard extends OdooCompatActivity implements View.OnClickListener {
+public class AsistenteCierre extends OdooCompatActivity implements View.OnClickListener {
     private WelcomeCoordinatorLayout coordinatorLayout;
     private Trabajo turnoTrabajo;
     private ODataRow record = null;
@@ -40,7 +40,7 @@ public class Wizard extends OdooCompatActivity implements View.OnClickListener {
         fileManager = new OFileManager(this);
         extras = getIntent().getExtras();
 
-        initializePages();
+//        initializePages();
 
         setupMode();
     }

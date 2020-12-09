@@ -122,7 +122,7 @@
 
         <activity android:name=".addons.maquinaria.TurnoDetails"/>
 
-        <activity android:name=".addons.maquinaria.wizard.Wizard"/>
+        <activity android:name=".addons.maquinaria.wizard.AsistenteCierre"/>
 
         <activity android:name=".addons.maquinaria.wizard.AsistenteNuevo"/>
     </application>

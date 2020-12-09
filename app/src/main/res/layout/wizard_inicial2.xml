@@ -18,7 +18,7 @@
 
         <TextView
             android:id="@+id/title_localidad"
-            android:text="Seleccione una localidad"
+            android:text="@string/seleccione_una_localidad"
             android:layout_width="150dp"
             android:textColor="@color/common_google_signin_btn_text_light_focused"
             android:textSize="@dimen/text_size_xlarge"

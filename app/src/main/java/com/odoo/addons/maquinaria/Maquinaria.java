@@ -21,7 +21,7 @@ import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
 //import com.odoo.base.addons.res.ResPartner;
 import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
-import com.odoo.addons.maquinaria.wizard.Wizard;
+import com.odoo.addons.maquinaria.wizard.AsistenteCierre;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.IOnSearchViewChangeListener;
@@ -114,7 +114,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         Bundle data = new Bundle();
         if (row != null) {
             data = row.getPrimaryBundleData();
-            IntentUtils.startActivity(getActivity(), Wizard.class, data);
+            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
         else {
             IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
