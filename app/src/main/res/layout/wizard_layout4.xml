@@ -3,19 +3,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/welcome_page"
     >
+    <ImageView
+        android:id="@+id/icon_notes"
+        android:layout_width="52dp"
+        android:layout_height="57dp"
+        android:src="@drawable/ic_notes"
+        android:layout_marginLeft="@dimen/default_16dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:layout_below="@+id/icon_notes">
+
+        <TextView
+            android:id="@+id/title_descripcion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="@dimen/text_size_xxlarge"
+            android:text="@string/describe_tu_trabajo"
+            android:layout_centerHorizontal="true"/>
+
 
         <EditText
-
             android:id="@+id/text_trabajo_edit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="MissingPrefix"
-            android:background="@color/body_text_1_inverse"/>
+            android:inputType="textMultiLine"
+            android:background="@color/body_text_1_inverse"
+            android:layout_below="@+id/title_descripcion"
+            android:layout_marginLeft="@dimen/default_16dp"
+            android:layout_marginRight="@dimen/default_16dp"
+            android:layout_marginTop="@dimen/default_16dp"/>
 
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

@@ -2,15 +2,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/welcome_page">
 
+    <ImageView
+        android:id="@+id/icon_odometer"
+        android:layout_width="62dp"
+        android:layout_height="67dp"
+        android:src="@drawable/ic_dashboard"
+        android:layout_marginLeft="@dimen/default_16dp"/>
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:layout_below="@id/icon_odometer">
 
         <TextView
             android:id="@+id/label_odometro_inicial"
-            android:text="Registre el odometro actual y tome una foto para el registro"
+            android:text="@string/registre_odometro_y_tome_foto"
             android:textStyle="bold"
             android:textSize="@dimen/text_size_xxlarge"
             android:fontFamily="@string/font_normal"
@@ -23,7 +31,7 @@
             android:id="@+id/entrada_odometro_inicial"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
+            android:inputType="numberDecimal"
             android:textSize="@dimen/text_size_xxlarge"
             android:background="@android:color/white"
             android:layout_below="@id/label_odometro_inicial"

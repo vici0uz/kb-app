@@ -10,6 +10,7 @@
 
 
         <TextView
+            android:id="@+id/info_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Inicio del turno"
@@ -18,9 +19,14 @@
             android:layout_centerHorizontal="true"/>
 
         <TextView
+            android:background="#82F2E7"
+            android:id="@+id/info_recopilada"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Información recopilada"/>
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="@dimen/text_size_xlarge"
+            android:layout_below="@id/info_titulo"/>
 <!--        <Button-->
 <!--            android:layout_width="wrap_content"-->
 <!--            android:layout_height="wrap_content"/>-->

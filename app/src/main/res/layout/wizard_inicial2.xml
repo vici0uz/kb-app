@@ -1,13 +1,30 @@
 <com.redbooth.WelcomePageLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/welcome_page"
-    >
+    style="@style/welcome_page">
+
+    <ImageView
+        android:id="@+id/icon_map"
+        android:layout_width="62dp"
+        android:layout_height="67dp"
+        android:src="@drawable/ic_map"
+        android:layout_marginLeft="@dimen/default_16dp"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:layout_below="@id/icon_map">
+
+        <TextView
+            android:id="@+id/title_localidad"
+            android:text="Seleccione una localidad"
+            android:layout_width="150dp"
+            android:textColor="@color/common_google_signin_btn_text_light_focused"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
 
         <Spinner
             android:id="@+id/spinner_lugar"
@@ -16,7 +33,8 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:background="#82F2E7"/>
+            android:background="@color/color_fondo_wizard"
+            android:layout_below="@+id/title_localidad"/>
 
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

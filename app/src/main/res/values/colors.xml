@@ -47,4 +47,5 @@
     <color name="translucent_scrim_top_center">#0C000000</color>
     <color name="translucent_scrim_bottom">#2A000000</color>
     <color name="translucent_scrim_bottom_center">#0D000000</color>
+    <color name="color_fondo_wizard">#82F2E7</color>
 </resources>

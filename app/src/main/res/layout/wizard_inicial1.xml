@@ -1,12 +1,33 @@
 <com.redbooth.WelcomePageLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     style="@style/welcome_page"
     >
+
+    <ImageView
+        android:id="@+id/maquina_icon"
+        android:layout_width="62dp"
+        android:layout_height="67dp"
+        android:layout_marginLeft="@dimen/default_16dp"
+        android:src="@drawable/ic_excavator" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:layout_below="@id/maquina_icon">
+
+        <TextView
+            android:id="@+id/title_maquina"
+            android:text="Seleccione una maquina"
+            android:layout_width="150dp"
+            android:textColor="@color/common_google_signin_btn_text_light_focused"
+            android:textSize="@dimen/text_size_xlarge"
+            android:textStyle="bold"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"/>
+
         <Spinner
             android:id="@+id/spinner_maquina"
             android:spinnerMode="dialog"
@@ -15,7 +36,11 @@
             android:layout_centerVertical="true"
             android:layout_centerHorizontal="true"
             android:background="#82F2E7"
-            android:prompt="@string/select_item"/>
+            android:prompt="@string/select_item"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/title_maquina"/>
 
     </RelativeLayout>
+
+
 </com.redbooth.WelcomePageLayout>

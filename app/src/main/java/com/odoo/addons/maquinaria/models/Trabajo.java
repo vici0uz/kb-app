@@ -12,6 +12,7 @@ import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.orm.fields.types.OBlob;
 import com.odoo.core.orm.fields.types.OBoolean;
 import com.odoo.core.orm.fields.types.ODate;
+import com.odoo.core.orm.fields.types.OFloat;
 import com.odoo.core.orm.fields.types.OInteger;
 import com.odoo.core.orm.fields.types.OSelection;
 import com.odoo.core.orm.fields.types.OVarchar;
@@ -29,10 +30,10 @@ public class Trabajo extends OModel {
     OColumn fecha_trabajo = new OColumn("Fecha", ODate.class);
     OColumn cerrado = new OColumn("Turno cerrado", OBoolean.class);
 
-    OColumn odometro_inicial = new OColumn("Odometro inicial", OInteger.class);
+    OColumn odometro_inicial = new OColumn("Odometro inicial", OFloat.class);
     OColumn odometro_inicial_imagen = new OColumn("Imagen del Odometro", OBlob.class);
 
-    OColumn odometro_final = new OColumn("Odometro final", OInteger.class);
+    OColumn odometro_final = new OColumn("Odometro final", OFloat.class);
     OColumn odometro_final_imagen = new OColumn("Odometro final imagen", OBlob.class);
     OColumn status = new OColumn("Estado", OSelection.class)
             .addSelection("abierto","Abierto")

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Odoo</string>
+    <string name="next">Siguiente</string>
+    <string name="back">Anterior</string>
+    <string name="ending">Guardar</string>
+    <string name="select_item">Escoja un item</string>
+    <string name="label_save">Guardar</string>
+    <string name="error_invalid_password">Contraseña erronea</string>
+    <string name="status_connecting_to_server">Conectando...</string>
+    <string name="app_version_name">Versión</string>
+    <string name="toast_network_required">Conexión requerida</string>
+    <string name="label_close">Cerrar</string>
+    <string name="label_warning">Alerta</string>
+    <string name="label_more">Más</string>
+    <string name="label_edit">Editar</string>
+    <string name="pick_one_item">Seleccionar</string>
+</resources>
