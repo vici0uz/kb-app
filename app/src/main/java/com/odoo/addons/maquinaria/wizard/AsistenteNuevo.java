@@ -1,12 +1,9 @@
 package com.odoo.addons.maquinaria.wizard;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -75,6 +72,12 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
         entradaOdometro = (EditText) findViewById(R.id.entrada_odometro_inicial);
         imgOdometroInicial = (ImageView) findViewById(R.id.odometro_inicial_img_view);
+
+        findViewById(R.id.next).setOnClickListener(this);
+        findViewById(R.id.back).setOnClickListener(this);
+        findViewById(R.id.end).setOnClickListener(this);
+        findViewById(R.id.btn_registrar_odometro_img).setOnClickListener(this);
+
         getRecords();
     }
 
@@ -84,9 +87,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         recordMaquinas =modelMaquina.select();
         recordLugares = modelLugar.select();
         for (ODataRow row: recordMaquinas) {
-//            Log.i("ALAN DEBUG ", maquina.browse(row.getInt("id")).getString("name"));
             String maquinaName = maquina.browse(row.getInt("id")).getString("name");
-            Log.i("ALAN DEBUG ", maquinaName);
             listaMaquinas.add(maquinaName);
         }
         for (ODataRow row: recordLugares){
@@ -104,75 +105,76 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         spinnerMaquina.setAdapter(adapterSpinnerMaquinas);
         spinnerLugares.setAdapter(adapterSpinnerLugares);
 
-        findViewById(R.id.next).setOnClickListener(this);
-        findViewById(R.id.back).setOnClickListener(this);
-        findViewById(R.id.end).setOnClickListener(this);
-        findViewById(R.id.btn_registrar_odometro_inicial_imagen).setOnClickListener(this);
 
-//        model.
-//        Log.i("ALAN DEBUG", model.select("maquinaria_maquina").toString());
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.next:
-                Log.i("ALAN DEBUG pagina", String.valueOf(coordinatorLayout.getPageSelected()));
                 int page = coordinatorLayout.getPageSelected();
-                if (page == 0) {
-                    if (spinnerMaquina.getSelectedItemPosition() != 0) {
+                Log.i("ALAN DEBUG pagina", String.valueOf(page));
+                switch (page){
+                    case 0:
+                        if (spinnerMaquina.getSelectedItemPosition() != 0) {
 
-                        int pos = spinnerMaquina.getSelectedItemPosition();
-                        Log.i("ALAN DEBUG: ", recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID).toString());
-                        int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
-                        values.put("maquina_id", maquina_id);
-                        coordinatorLayout.setCurrentPage(page + 1, true);
+                            int pos = spinnerMaquina.getSelectedItemPosition();
+                            int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
+                            values.put("maquina_id", maquina_id);
+                            coordinatorLayout.setCurrentPage(page + 1, true);
 
-
-                    } else {
-                        Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
-                    }
-                }
-                if(page == 1){
-                    if(spinnerLugares.getSelectedItemPosition() !=0){
-                        int pos = spinnerLugares.getSelectedItemPosition();
-                        int lugar_id = recordLugares.get(pos-1).getInt(OColumn.ROW_ID);
-                        values.put("trabajo_destino", lugar_id);
-                        coordinatorLayout.setCurrentPage(page+1,true);
-                    }
-                    else {
-                        Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
-                    }
-                }
-                if (page == 2){
-                   if(isEmpty(entradaOdometro)){
-                       entradaOdometro.setError("Requerido");
-                   }
-                   if(newImage == null){
-                       Toast.makeText(this, getResources().getString(R.string.take_odometro_pic), Toast.LENGTH_SHORT).show();
-                   }
-                   else if(!isEmpty(entradaOdometro) && !newImage.isEmpty()){
-                       float odometro_inicial = Float.parseFloat(entradaOdometro.getText().toString());
-                       values.put("odometro_inicial", odometro_inicial);
-                       values.put("odometro_inicial_imagen", newImage);
-                       coordinatorLayout.setCurrentPage(page+1,true);
-                   }
-                }
-//                coordinatorLayout.setCurrentPage(page+1,true);
-
-                if (coordinatorLayout.getPageSelected() == (coordinatorLayout.getNumOfPages() -1)){
-                    findViewById(R.id.next).setVisibility(View.GONE);
-                    findViewById(R.id.end).setVisibility(View.VISIBLE);
-                    String info = getInfo();
-                    infoRecopilada = (TextView) findViewById(R.id.info_recopilada);
-                    infoRecopilada.setText(info);
+                        } else {
+                            Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                    case 1:
+                        if(spinnerLugares.getSelectedItemPosition() !=0){
+                            int pos = spinnerLugares.getSelectedItemPosition();
+                            int lugar_id = recordLugares.get(pos-1).getInt(OColumn.ROW_ID);
+                            values.put("trabajo_destino", lugar_id);
+                            coordinatorLayout.setCurrentPage(page+1,true);
+                        }
+                        else {
+                            Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
+                        }
+                        break;
+                    case 2:
+                        if(isEmpty(entradaOdometro)){
+                            entradaOdometro.setError("Requerido");
+                        }
+                        else if(newImage == null){
+                            Toast.makeText(this, getResources().getString(R.string.take_odometro_pic), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            float odometro_inicial = Float.parseFloat(entradaOdometro.getText().toString());
+                            values.put("odometro_inicial", odometro_inicial);
+                            values.put("odometro_inicial_imagen", newImage);
+                            coordinatorLayout.setCurrentPage(3,true);
+//                            INICIALIZAR 3 PAGINA
+                            findViewById(R.id.next).setVisibility(View.GONE);
+                            findViewById(R.id.end).setVisibility(View.VISIBLE);
+                            String info = getInfo();
+                            infoRecopilada = (TextView) findViewById(R.id.info_recopilada);
+                            infoRecopilada.setText(info);
+                        }
+                        break;
                 }
                 break;
             case R.id.back:
-                if (coordinatorLayout.getPageSelected() == 0){
-                    finish();
-                }else {
-                    coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected()-1,true);
+                page = coordinatorLayout.getPageSelected();
+
+                switch (page) {
+                    case 0:
+                        finish();
+                        break;
+                    case 3:
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        findViewById(R.id.next).setVisibility(View.VISIBLE);
+                        findViewById(R.id.end).setVisibility(View.GONE);
+                        break;
+                    default:
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        break;
                 }
                 break;
             case R.id.end:
@@ -181,10 +183,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
                     turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
                 }
-
                 finish();
                 break;
-            case R.id.btn_registrar_odometro_inicial_imagen:
+            case R.id.btn_registrar_odometro_img:
                 fileManager.requestForFile(OFileManager.RequestType.CAPTURE_IMAGE);
                 break;
         }
@@ -208,28 +209,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         }
     }
 
-//    public class CustomAdapter extends ArrayAdapter<String> {
-//
-//        private int hidingItemIndex;
-//
-//        CustomAdapter(Context context, int textViewResourceId, List<String> objects, int hidingItemIndex) {
-//            super(context, textViewResourceId, objects);
-//            this.hidingItemIndex = hidingItemIndex;
-//        }
-//
-//        @Override
-//        public View getDropDownView(int position, View convertView, ViewGroup parent) {
-//            View v = null;
-//            if (position == hidingItemIndex) {
-//                TextView tv = new TextView(getContext());
-//                tv.setVisibility(View.GONE);
-//                v = tv;
-//            } else {
-//                v = super.getDropDownView(position, null, parent);
-//            }
-//            return v;
-//        }
-//    }
 
     private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;

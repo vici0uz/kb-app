@@ -38,6 +38,42 @@
             android:layout_marginLeft="@dimen/default_16dp"
             android:layout_marginRight="@dimen/default_16dp"
             android:layout_marginTop="@dimen/default_16dp"/>
+        <LinearLayout
+            android:id="@+id/obseracion_control"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_below="@id/text_trabajo_edit"
+            android:gravity="center_horizontal">
+        <TextView
+            android:id="@+id/label_observacion"
+            android:layout_marginTop="@dimen/default_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_tienes_observaciones"
+            android:gravity="center"
+            android:padding="5dp"
+            android:fontFamily="@string/font_light"
+            android:textColorLink="#ffffff"
+            android:textColor="#ffffff"/>
+        <ImageView
+            android:layout_width="@dimen/default_16dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_error_outline_24_red"
+            />
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/edit_observacion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="64dp"
+            android:layout_marginRight="64dp"
+            android:background="@color/android_orange"
+            android:visibility="gone"
+            android:layout_below="@id/obseracion_control"
+            android:inputType="textMultiLine"
+            />
 
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

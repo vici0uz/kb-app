@@ -40,7 +40,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         fileManager = new OFileManager(this);
         extras = getIntent().getExtras();
 
-//        initializePages();
+        initializePages();
 
         setupMode();
     }
@@ -59,10 +59,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
 
     }
 
-    private void setListeners(){
-//        findViewById(R.id.btn_registrar_odometro).setOnClickListener(this);
-//        findViewById(R.id.btn_registrar_odometro_imagen).setOnClickListener(this);
-    }
+
     private void initializePages(){
             coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
             coordinatorLayout.showIndicators(true);
@@ -71,14 +68,49 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
 //            TimePicker timePicker = (TimePicker) findViewById(R.id.time_picker_horas);
 //            timePicker.setIs24HourView(true);
 
-            setListeners();
-
+        findViewById(R.id.next).setOnClickListener(this);
+        findViewById(R.id.back).setOnClickListener(this);
+        findViewById(R.id.end).setOnClickListener(this);
+        findViewById(R.id.btn_registrar_odometro_img).setOnClickListener(this);
+        findViewById(R.id.label_observacion).setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()) {
+        int page = coordinatorLayout.getPageSelected();
 
+        switch (view.getId()) {
+            case R.id.next:
+                switch (page){
+                    case 0:
+                        coordinatorLayout.setCurrentPage(page + 1, true);
+                        break;
+                    case 1:
+                        break;
+                }
+                break;
+            case R.id.back:
+                switch (page){
+                    case 0:
+                        finish();
+                        break;
+                    case 3:
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        findViewById(R.id.next).setVisibility(View.VISIBLE);
+                        findViewById(R.id.end).setVisibility(View.GONE);
+                        break;
+                    default:
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        break;
+                }
+            case R.id.end:
+                break;
+            case R.id.btn_registrar_odometro_img:
+                fileManager.requestForFile(OFileManager.RequestType.CAPTURE_IMAGE);
+                break;
+            case R.id.label_observacion:
+                findViewById(R.id.edit_observacion).setVisibility(View.VISIBLE);
+                break;
 //            case R.id.btn_registrar_odometro:
 ////                Toast.makeText(this, "Joder", Toast.LENGTH_SHORT).show();
 //                Validator validator = new NumberValidator();
