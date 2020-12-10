@@ -17,6 +17,7 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.support.OdooCompatActivity;
+import com.odoo.core.utils.BitmapUtils;
 import com.redbooth.WelcomeCoordinatorLayout;
 
 
@@ -28,7 +29,8 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private OFileManager fileManager;
     private OValues oValues;
     private String newImage = null;
-    private ImageView imgHolder = null;
+    private ImageView imgOdometroInicial;
+
 
 
     @Override
@@ -61,12 +63,11 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
 
 
     private void initializePages(){
-            coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
-            coordinatorLayout.showIndicators(true);
-            coordinatorLayout.setScrollingEnabled(true);
-            coordinatorLayout.addPage(R.layout.wizard_inicial3, R.layout.wizard_layout4, R.layout.wizard_layout5);
-//            TimePicker timePicker = (TimePicker) findViewById(R.id.time_picker_horas);
-//            timePicker.setIs24HourView(true);
+        coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
+        coordinatorLayout.showIndicators(true);
+        coordinatorLayout.setScrollingEnabled(true);
+        coordinatorLayout.addPage(R.layout.wizard_inicial3, R.layout.wizard_layout4, R.layout.wizard_layout5);
+        imgOdometroInicial = (ImageView) findViewById(R.id.odometro_inicial_img_view);
 
         findViewById(R.id.next).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
@@ -142,6 +143,10 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         OValues values = fileManager.handleResult(requestCode, resultCode, data);
         if (values != null && !values.contains("size_limit_exceed")){
             newImage = values.getString("datas");
+            imgOdometroInicial.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imgOdometroInicial.setColorFilter(null);
+            imgOdometroInicial.setImageBitmap(BitmapUtils.getBitmapImage(this, newImage));
+            imgOdometroInicial.setVisibility(View.VISIBLE);
             Toast.makeText(this, "joder hay foto",Toast.LENGTH_LONG).show();
         }
         else if (values != null){

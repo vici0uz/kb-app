@@ -26,9 +26,14 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.net.Uri;
+import android.os.Build;
+import android.provider.MediaStore;
+import android.support.annotation.RequiresApi;
 import android.text.TextPaint;
 import android.util.Base64;
 import android.util.Log;
@@ -41,6 +46,8 @@ import java.io.InputStream;
 
 import odoo.controls.OControlHelper;
 
+
+import android.media.ExifInterface;;
 public class BitmapUtils {
     public static final int THUMBNAIL_SIZE = 500;
 
@@ -87,12 +94,54 @@ public class BitmapUtils {
         return byteBuffer.toByteArray();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String uriToBase64(Uri uri, ContentResolver resolver) {
         return uriToBase64(uri, resolver, false);
     }
 
+//    public static String uriToBase64(Uri uri, ContentResolver resolver, boolean thumbnail) {
+//        String encodedBase64 = "";
+//        try {
+//            byte[] bytes = readBytes(uri, resolver, thumbnail);
+//            encodedBase64 = Base64.encodeToString(bytes, 0);
+//        } catch (IOException e1) {
+//            e1.printStackTrace();
+//        }
+//        return encodedBase64;
+//    }
+
+
+    @RequiresApi(api = Build.VERSION_CODES.N)
     public static String uriToBase64(Uri uri, ContentResolver resolver, boolean thumbnail) {
         String encodedBase64 = "";
+
+        try {
+
+
+            ExifInterface exif = new ExifInterface(resolver.openInputStream(uri));
+            int flag = (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL));
+            if (flag ==6){
+                Bitmap bm =     BitmapFactory.decodeStream(resolver.openInputStream(uri));
+                Matrix matrix = new Matrix();
+                matrix.postRotate(90);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(bm, bm.getWidth(), bm.getHeight(), true);
+                Bitmap rotatedBitmap = Bitmap.createBitmap(scaledBitmap, 0, 0,scaledBitmap.getWidth(), scaledBitmap.getHeight(),matrix, true);
+                ByteArrayOutputStream vytes = new ByteArrayOutputStream();
+                rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, vytes);
+                String path = MediaStore.Images.Media.insertImage(resolver, rotatedBitmap, "Title", null);
+
+                Log.i("ALAN DEBUG", "joder rotado");
+
+                Uri new_uri = Uri.parse(path);
+                if (new_uri != null) {
+                    uri = new_uri;
+                }
+            }
+
+//            Log.i("ALAN DEBUG ", String.valueOf(exif.getAttributeInt()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             byte[] bytes = readBytes(uri, resolver, thumbnail);
             encodedBase64 = Base64.encodeToString(bytes, 0);

@@ -15,6 +15,7 @@ import com.odoo.core.orm.fields.types.ODate;
 import com.odoo.core.orm.fields.types.OFloat;
 import com.odoo.core.orm.fields.types.OInteger;
 import com.odoo.core.orm.fields.types.OSelection;
+import com.odoo.core.orm.fields.types.OText;
 import com.odoo.core.orm.fields.types.OVarchar;
 import com.odoo.core.support.OUser;
 
@@ -42,6 +43,11 @@ public class Trabajo extends OModel {
     OColumn trabajo_destino = new OColumn("Lugar de trabajo", Destino.class, OColumn.RelationType.ManyToOne);
 
     OColumn operador = new OColumn("Operador", ResPartner.class, OColumn.RelationType.ManyToOne);
+
+    /* CREAR */
+    OColumn descripcion = new OColumn("Descripción del trabajo", OText.class);
+    OColumn observacion = new OColumn("Observación del trabajo", OText.class).setSize(256);
+    OColumn tiene_observación = new OColumn("Tiene observación", OBoolean.class).setDefaultValue(false);
 
     public Trabajo(Context context, OUser user) {
         super(context, "maquinaria.trabajo.linea", user);
