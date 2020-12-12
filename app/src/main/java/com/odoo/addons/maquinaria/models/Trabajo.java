@@ -47,7 +47,7 @@ public class Trabajo extends OModel {
     /* CREAR */
     OColumn descripcion = new OColumn("Descripción del trabajo", OText.class);
     OColumn observacion = new OColumn("Observación del trabajo", OText.class).setSize(256);
-    OColumn tiene_observación = new OColumn("Tiene observación", OBoolean.class).setDefaultValue(false);
+    OColumn tiene_observacion = new OColumn("Tiene observación", OBoolean.class).setDefaultValue(false);
 
     public Trabajo(Context context, OUser user) {
         super(context, "maquinaria.trabajo.linea", user);

@@ -116,6 +116,23 @@
                 android:resource="@xml/maquinaria_sync_adapter"/>
         </service>
 
+        <provider
+            android:name="com.odoo.addons.maquinaria.providers.MaquinariaDestinoSyncProvider"
+            android:authorities="com.odoo.addons.maquinaria.content.sync.maquinaria_destino"
+            android:label="Lugares"
+            android:multiprocess="true"/>
+
+        <service android:name="com.odoo.addons.maquinaria.services.DestinoSyncService"
+            android:exported="true"
+            android:process=":sync_lugares">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/destino_sync_adapter"/>
+        </service>
+
         <activity
             android:name="com.odoo.addons.customers.CustomerDetails"
             android:windowSoftInputMode="adjustPan" />
@@ -125,6 +142,7 @@
         <activity android:name=".addons.maquinaria.wizard.AsistenteCierre"/>
 
         <activity android:name=".addons.maquinaria.wizard.AsistenteNuevo"/>
+        <activity android:name=".addons.maquinaria.NuevoLugar"/>
     </application>
 
 </manifest>

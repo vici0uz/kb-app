@@ -36,5 +36,17 @@
             android:background="@color/color_fondo_wizard"
             android:layout_below="@+id/title_localidad"/>
 
+        <TextView
+            android:id="@+id/label_lugar_perdido"
+            android:text="@string/falta_alg_n_lugar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:padding="5dp"
+            android:fontFamily="@string/font_light"
+            android:textColorLink="#ffffff"
+            android:textColor="#ffffff"
+            android:layout_below="@id/spinner_lugar"/>
+
     </RelativeLayout>
 </com.redbooth.WelcomePageLayout>

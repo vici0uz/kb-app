@@ -114,10 +114,8 @@ public class BitmapUtils {
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static String uriToBase64(Uri uri, ContentResolver resolver, boolean thumbnail) {
         String encodedBase64 = "";
-
+        /* Lee los metadatos de la imagen, si está rotada crea un nuevo bitmap rotado */
         try {
-
-
             ExifInterface exif = new ExifInterface(resolver.openInputStream(uri));
             int flag = (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,ExifInterface.ORIENTATION_NORMAL));
             if (flag ==6){
@@ -130,15 +128,11 @@ public class BitmapUtils {
                 rotatedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, vytes);
                 String path = MediaStore.Images.Media.insertImage(resolver, rotatedBitmap, "Title", null);
 
-                Log.i("ALAN DEBUG", "joder rotado");
-
                 Uri new_uri = Uri.parse(path);
                 if (new_uri != null) {
                     uri = new_uri;
                 }
             }
-
-//            Log.i("ALAN DEBUG ", String.valueOf(exif.getAttributeInt()));
         } catch (IOException e) {
             e.printStackTrace();
         }

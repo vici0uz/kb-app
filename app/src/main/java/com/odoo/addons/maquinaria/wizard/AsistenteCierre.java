@@ -31,8 +31,6 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private String newImage = null;
     private ImageView imgOdometroInicial;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -53,7 +51,6 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
 
     private void setupMode(){
         if( hasRecordInExtra()){
-//            Log.i("ALAN DEBUG","hay extras" );
             int rowId = extras.getInt(OColumn.ROW_ID);
             record = turnoTrabajo.browse(rowId);
 
@@ -147,7 +144,6 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
             imgOdometroInicial.setColorFilter(null);
             imgOdometroInicial.setImageBitmap(BitmapUtils.getBitmapImage(this, newImage));
             imgOdometroInicial.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "joder hay foto",Toast.LENGTH_LONG).show();
         }
         else if (values != null){
             Toast.makeText(this, "Imagen muy grande", Toast.LENGTH_LONG).show();

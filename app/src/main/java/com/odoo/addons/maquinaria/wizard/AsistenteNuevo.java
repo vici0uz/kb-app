@@ -1,8 +1,13 @@
 package com.odoo.addons.maquinaria.wizard;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -11,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.odoo.R;
+import com.odoo.addons.maquinaria.NuevoLugar;
 import com.odoo.addons.maquinaria.models.Destino;
 import com.odoo.addons.maquinaria.models.Maquina;
 import com.odoo.addons.maquinaria.models.Trabajo;
@@ -19,9 +25,12 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
+import com.odoo.core.orm.provider.BaseModelProvider;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.OdooCompatActivity;
+import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.utils.BitmapUtils;
+import com.odoo.core.utils.IntentUtils;
 import com.redbooth.WelcomeCoordinatorLayout;
 
 import java.util.ArrayList;
@@ -29,9 +38,15 @@ import java.util.List;
 
 public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickListener {
     private WelcomeCoordinatorLayout coordinatorLayout;
+
+    /* TABLAS */
     private Trabajo turnoTrabajo;
     private Maquina maquina;
     private Destino lugarTrabajo;
+
+    private OModel modelLugar;
+
+
     private ArrayList<String> listaMaquinas = new ArrayList<String>();
     private ArrayList<String> listaLugares = new ArrayList<String>();
     private List<ODataRow> recordMaquinas = null;
@@ -77,14 +92,16 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         findViewById(R.id.back).setOnClickListener(this);
         findViewById(R.id.end).setOnClickListener(this);
         findViewById(R.id.btn_registrar_odometro_img).setOnClickListener(this);
+        findViewById(R.id.label_lugar_perdido).setOnClickListener(this);
 
         getRecords();
     }
 
     private void getRecords(){
         OModel modelMaquina = new OModel(this, "maquinaria.maquina", OUser.current(this));
-        OModel modelLugar = new OModel(this, "maquinaria.destino", OUser.current(this));
-        recordMaquinas =modelMaquina.select();
+        modelLugar = new OModel(this, "maquinaria.destino", OUser.current(this));
+
+        recordMaquinas = modelMaquina.select();
         recordLugares = modelLugar.select();
         for (ODataRow row: recordMaquinas) {
             String maquinaName = maquina.browse(row.getInt("id")).getString("name");
@@ -113,7 +130,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         switch (v.getId()){
             case R.id.next:
                 int page = coordinatorLayout.getPageSelected();
-                Log.i("ALAN DEBUG pagina", String.valueOf(page));
                 switch (page){
                     case 0:
                         if (spinnerMaquina.getSelectedItemPosition() != 0) {
@@ -188,8 +204,82 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
             case R.id.btn_registrar_odometro_img:
                 fileManager.requestForFile(OFileManager.RequestType.CAPTURE_IMAGE);
                 break;
+            case R.id.label_lugar_perdido:
+                IntentUtils.startActivity(this, NuevoLugar.class, null);
+                break;
+            /* MOSTRAR DIALOGO Y CREAR LUGAR */
+//                final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
+//                builder1.setTitle(R.string.title_lugar_perdido);
+//                LayoutInflater li = LayoutInflater.from(this);
+//                final View prmptView = li.inflate(R.layout.dialog_crear_lugar, null);
+//                builder1.setView(prmptView);
+//                builder1.setCancelable(true);
+//
+//                builder1.setPositiveButton(getResources().getString(R.string.label_save),
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                            }
+//                        });
+//                builder1.setNegativeButton(getResources().getString(R.string.label_cancel),
+//                        new DialogInterface.OnClickListener() {
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//                                dialog.cancel();
+//                            }
+//                        });
+//                final AlertDialog alertaLugar = builder1.create();
+//                alertaLugar.show();
+//                alertaLugar.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Boolean wantToCloseDialog = false;
+//                        EditText lugarEdtTxt = (EditText) prmptView.findViewById(R.id.lugar_perdido_input_text);
+//                        if (!isEmpty(lugarEdtTxt)) {
+//                            OValues lugar_values = new OValues();
+//                            lugar_values.put("name", lugarEdtTxt.getText().toString());
+//                            int lugar_id = lugarTrabajo.insert(lugar_values);
+//                            if (lugar_id != OModel.INVALID_ROW_ID){
+//                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
+//                                wantToCloseDialog = true;
+//                                lugarTrabajo.sync().requestSync(Destino.AUTHORITY);
+//                                try {
+//                                    lugarTrabajo.sync().requestSync(Destino.AUTHORITY);
+//                                    Thread.sleep(1000);
+//                                } catch (InterruptedException e) {
+//                                    e.printStackTrace();
+//                                }
+//                                Log.i("ALAN DEBUG tañaño ", String.valueOf(recordLugares.size()));
+//
+//
+//                                recordLugares = modelLugar.select();
+//                                for (ODataRow row: recordLugares){
+//
+//                                    Log.i("ALAN DEBUG ",lugarTrabajo.browse(row.getInt("id")).getString("name") );
+//
+//                                    String lugarName = lugarTrabajo.browse(row.getInt("id")).getString("name");
+//                                    listaLugares.add(lugarName);
+//                                }
+//                                CustomAdapter adapter = (CustomAdapter) spinnerLugares.getAdapter();
+//                                adapter.clear();
+//                                adapter.addAll(listaLugares);
+//                                spinnerLugares.setAdapter(adapter);
+//
+//
+//                            }
+//                            else {
+//                                Toast.makeText(AsistenteNuevo.this, "Error", Toast.LENGTH_SHORT).show();
+//                            }
+//                        } else
+//                            lugarEdtTxt.setError("No puede quedar vacio");
+//
+//                        if (wantToCloseDialog)
+//                            alertaLugar.dismiss();
+//                    }
+//                });
         }
     }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
@@ -201,8 +291,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
             imgOdometroInicial.setColorFilter(null);
             imgOdometroInicial.setImageBitmap(BitmapUtils.getBitmapImage(this, newImage));
             imgOdometroInicial.setVisibility(View.VISIBLE);
-//            Toast.makeText(this, "joder hay foto",Toast.LENGTH_LONG).show();
-
         }
         else if (values != null){
             Toast.makeText(this, getResources().getString(R.string.image_too_big), Toast.LENGTH_LONG).show();

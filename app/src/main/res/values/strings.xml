@@ -29,4 +29,7 @@
     <string name="describe_tu_trabajo">Describe tu trabajo</string>
     <string name="seleccione_una_localidad">Seleccione una localidad</string>
     <string name="lbl_tienes_observaciones">Tienes observaciones que reportar?</string>
+    <string name="falta_alg_n_lugar"><u>¿Falta algún lugar?</u></string>
+    <string name="msg_lugar_perdido">Ingrese el nombre de la localidad que falta</string>
+    <string name="title_lugar_perdido">Añade la localidad que falta</string>
 </resources>
