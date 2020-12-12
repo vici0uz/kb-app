@@ -44,6 +44,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
     @Override
     public List<ODrawerItem> drawerMenus(Context context) {
         List<ODrawerItem> items = new ArrayList<>();
+        items.add(new ODrawerItem(KEY).setTitle("Escoger una maquina").setIcon(R.drawable.ic_excavator).setInstance(new PicarMaquina()));
         items.add(new ODrawerItem(KEY).setTitle("Turnos").setIcon(R.drawable.ic_baseline_history_toggle_off_24).setInstance(new Maquinaria()));
         return items;
     }

@@ -336,9 +336,10 @@
                         </option>
                         <option name="values">
                           <map>
+                            <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="f44336" />
-                            <entry key="outputName" value="ic_baseline_error_outline_24_red" />
-                            <entry key="sourceFile" value="$PROJECT_DIR$/../Descargas/notes.svg" />
+                            <entry key="outputName" value="ic_excavator" />
+                            <entry key="sourceFile" value="$PROJECT_DIR$/../Descargas/excavator.svg" />
                           </map>
                         </option>
                       </PersistentState>
