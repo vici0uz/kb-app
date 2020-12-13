@@ -24,6 +24,7 @@ import com.odoo.addons.maquinaria.wizard.AsistenteCierre;
 import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.support.addons.fragment.BaseFragment;
+import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.list.OCursorListAdapter;
 import com.odoo.core.utils.IntentUtils;
@@ -33,7 +34,7 @@ import com.odoo.core.utils.OCursorUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnViewBindListener,  SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener {
+public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnViewBindListener,  SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener, ISyncStatusObserverListener {
     public static final String KEY = PicarMaquina.class.getSimpleName();
     private View mView;
     private OCursorListAdapter mAdapter = null;
@@ -75,6 +76,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public void onViewBind(View view, Cursor cursor, ODataRow row) {
         OControls.setText(view, R.id.name, row.getString("name"));
+        OControls.setText(view, R.id.turno_estado, row.getString("turno_estado"));
 
     }
 
@@ -116,6 +118,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
                 }
             }, 500);
             if (db().isEmptyTable() && !syncRequested) {
+                Log.i("ALAN DEBUG: ", "Ahora sos una de mis frescas");
                 syncRequested = true;
                 onRefresh();
             }
@@ -140,12 +143,19 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
     private void loadActivity(ODataRow row) {
         Bundle data = new Bundle();
-        if (row != null) {
-            data = row.getPrimaryBundleData();
-            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
-        }
-        else {
+//        if (row != null) {
+//            data = row.getPrimaryBundleData();
+//            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
+//        }
+//        else {
+//            IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
+//        }
+        data = row.getPrimaryBundleData();
+        Log.i("ALAN DEBUG: ", row.get("turno_estado").toString());
+        if (row.getString("turno_estado").equals("close")){
             IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
+        }else {
+            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
 //        data.putString(CustomerDetails.KEY_PARTNER_TYPE, mType.toString());
 //        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
@@ -156,5 +166,10 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         ODataRow row = OCursorUtils.toDatarow((Cursor) mAdapter.getItem(position));
         loadActivity(row);
+    }
+    @Override
+    public void onStatusChange(Boolean refreshing) {
+        getLoaderManager().restartLoader(0, null, this);
+
     }
 }

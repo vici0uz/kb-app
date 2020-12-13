@@ -133,6 +133,22 @@
                 android:resource="@xml/destino_sync_adapter"/>
         </service>
 
+        <provider
+            android:name="com.odoo.addons.maquinaria.providers.MaquinariaMaquinaSyncProvider"
+            android:authorities="com.odoo.addons.maquinaria.content.sync.maquinaria_maquina"
+            android:label="Maquinas"
+            android:multiprocess="true"/>
+
+        <service android:name="com.odoo.addons.maquinaria.services.MaquinaSyncService"
+            android:exported="true"
+            android:process=":sync_maquinas">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/maquina_sync_adapter"/>
+        </service>
         <activity
             android:name="com.odoo.addons.customers.CustomerDetails"
             android:windowSoftInputMode="adjustPan" />

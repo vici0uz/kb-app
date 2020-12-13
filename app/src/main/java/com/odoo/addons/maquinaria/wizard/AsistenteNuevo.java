@@ -39,26 +39,33 @@ import java.util.List;
 public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickListener {
     private WelcomeCoordinatorLayout coordinatorLayout;
 
+
+    private OFileManager fileManager;
+    private OValues values = new OValues();
+
     /* TABLAS */
     private Trabajo turnoTrabajo;
     private Maquina maquina;
     private Destino lugarTrabajo;
 
+    // Modelos
     private OModel modelLugar;
-
+    private OModel modelMaquina;
 
     private ArrayList<String> listaMaquinas = new ArrayList<String>();
     private ArrayList<String> listaLugares = new ArrayList<String>();
     private List<ODataRow> recordMaquinas = null;
     private List<ODataRow> recordLugares = null;
+
+//    Spinners
     private Spinner spinnerMaquina;
     private Spinner spinnerLugares;
+
     private EditText entradaOdometro;
     private TextView infoRecopilada;
-    private OFileManager fileManager;
     private String newImage = null;
     private ImageView imgOdometroInicial;
-    private OValues values = new OValues();
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -72,8 +79,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         maquina = new Maquina(this, null);
         lugarTrabajo = new Destino(this, null);
 
-        initializePages();
+        extras = this.getIntent().getExtras();
 
+        initializePages();
     }
 
     private void initializePages() {
@@ -98,13 +106,22 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     }
 
     private void getRecords(){
-        OModel modelMaquina = new OModel(this, "maquinaria.maquina", OUser.current(this));
+        modelMaquina = new OModel(this, "maquinaria.maquina", OUser.current(this));
         modelLugar = new OModel(this, "maquinaria.destino", OUser.current(this));
 
         recordMaquinas = modelMaquina.select();
         recordLugares = modelLugar.select();
+//        ODataRow data = extras.get("data");
+        int rowId = extras.getInt(OColumn.ROW_ID);
+        int defaultPos=0;
         for (ODataRow row: recordMaquinas) {
             String maquinaName = maquina.browse(row.getInt("id")).getString("name");
+            if (row.getInt("id").equals(rowId)){
+                defaultPos = recordMaquinas.indexOf(row)+1;
+                Log.i("ALAN DEBUG: ", "Son el mesmo");
+                Log.i("ALAN DEBUG: la posi es ", String.valueOf(recordMaquinas.indexOf(row)));
+            }
+            else Log.i("ALAN DEBUG: ", "No papu, no");
             listaMaquinas.add(maquinaName);
         }
         for (ODataRow row: recordLugares){
@@ -116,12 +133,15 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         listaMaquinas.add(0,getString(R.string.pick_one_item) );
         listaLugares.add(0, getString(R.string.pick_one_item));
 
+
+//CustomAdapter adapterSpinnerMaquinas = new CustomAdapter(this, android.R.layout.simple_spinner_dropdown_item, recordMaquinas, hidingItemIndex);
         CustomAdapter adapterSpinnerMaquinas = new CustomAdapter(this, android.R.layout.simple_spinner_dropdown_item, listaMaquinas, hidingItemIndex);
         CustomAdapter adapterSpinnerLugares = new CustomAdapter(this, android.R.layout.simple_spinner_dropdown_item, listaLugares, hidingItemIndex);
 
         spinnerMaquina.setAdapter(adapterSpinnerMaquinas);
         spinnerLugares.setAdapter(adapterSpinnerLugares);
-
+        if(defaultPos !=0)
+            spinnerMaquina.setSelection(defaultPos);
 
     }
 
@@ -166,7 +186,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                             values.put("odometro_inicial", odometro_inicial);
                             values.put("odometro_inicial_imagen", newImage);
                             coordinatorLayout.setCurrentPage(3,true);
-//                            INICIALIZAR 3 PAGINA
+//                            INICIALIZA INMEDIATAMENTE LA 3 PAGINA
                             findViewById(R.id.next).setVisibility(View.GONE);
                             findViewById(R.id.end).setVisibility(View.VISIBLE);
                             String info = getInfo();
@@ -207,76 +227,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
             case R.id.label_lugar_perdido:
                 IntentUtils.startActivity(this, NuevoLugar.class, null);
                 break;
-            /* MOSTRAR DIALOGO Y CREAR LUGAR */
-//                final AlertDialog.Builder builder1 = new AlertDialog.Builder(this);
-//                builder1.setTitle(R.string.title_lugar_perdido);
-//                LayoutInflater li = LayoutInflater.from(this);
-//                final View prmptView = li.inflate(R.layout.dialog_crear_lugar, null);
-//                builder1.setView(prmptView);
-//                builder1.setCancelable(true);
-//
-//                builder1.setPositiveButton(getResources().getString(R.string.label_save),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                            }
-//                        });
-//                builder1.setNegativeButton(getResources().getString(R.string.label_cancel),
-//                        new DialogInterface.OnClickListener() {
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//                                dialog.cancel();
-//                            }
-//                        });
-//                final AlertDialog alertaLugar = builder1.create();
-//                alertaLugar.show();
-//                alertaLugar.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Boolean wantToCloseDialog = false;
-//                        EditText lugarEdtTxt = (EditText) prmptView.findViewById(R.id.lugar_perdido_input_text);
-//                        if (!isEmpty(lugarEdtTxt)) {
-//                            OValues lugar_values = new OValues();
-//                            lugar_values.put("name", lugarEdtTxt.getText().toString());
-//                            int lugar_id = lugarTrabajo.insert(lugar_values);
-//                            if (lugar_id != OModel.INVALID_ROW_ID){
-//                                Toast.makeText(getApplicationContext(), getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
-//                                wantToCloseDialog = true;
-//                                lugarTrabajo.sync().requestSync(Destino.AUTHORITY);
-//                                try {
-//                                    lugarTrabajo.sync().requestSync(Destino.AUTHORITY);
-//                                    Thread.sleep(1000);
-//                                } catch (InterruptedException e) {
-//                                    e.printStackTrace();
-//                                }
-//                                Log.i("ALAN DEBUG tañaño ", String.valueOf(recordLugares.size()));
-//
-//
-//                                recordLugares = modelLugar.select();
-//                                for (ODataRow row: recordLugares){
-//
-//                                    Log.i("ALAN DEBUG ",lugarTrabajo.browse(row.getInt("id")).getString("name") );
-//
-//                                    String lugarName = lugarTrabajo.browse(row.getInt("id")).getString("name");
-//                                    listaLugares.add(lugarName);
-//                                }
-//                                CustomAdapter adapter = (CustomAdapter) spinnerLugares.getAdapter();
-//                                adapter.clear();
-//                                adapter.addAll(listaLugares);
-//                                spinnerLugares.setAdapter(adapter);
-//
-//
-//                            }
-//                            else {
-//                                Toast.makeText(AsistenteNuevo.this, "Error", Toast.LENGTH_SHORT).show();
-//                            }
-//                        } else
-//                            lugarEdtTxt.setError("No puede quedar vacio");
-//
-//                        if (wantToCloseDialog)
-//                            alertaLugar.dismiss();
-//                    }
-//                });
         }
     }
 
