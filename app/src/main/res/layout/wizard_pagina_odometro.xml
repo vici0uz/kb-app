@@ -23,7 +23,7 @@
             android:clipToPadding="false">
 
         <TextView
-            android:id="@+id/label_odometro_inicial"
+            android:id="@+id/label_odometro_edit"
             android:text="@string/registre_odometro_y_tome_foto"
             android:textStyle="bold"
             android:textSize="@dimen/text_size_xxlarge"
@@ -34,15 +34,15 @@
             android:layout_marginLeft="20dp"/>
 
         <EditText
-            android:id="@+id/entrada_odometro_inicial"
+            android:id="@+id/entrada_odometro"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:inputType="numberDecimal"
             android:textSize="@dimen/text_size_xxlarge"
             android:background="@android:color/white"
-            android:layout_below="@id/label_odometro_inicial"
+            android:layout_below="@id/label_odometro_edit"
             android:layout_marginTop="20dp"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            />
 
         <ImageButton
             android:id="@+id/btn_registrar_odometro_img"
@@ -51,10 +51,10 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="20dp"
-            android:layout_below="@id/entrada_odometro_inicial"/>
+            android:layout_below="@id/entrada_odometro"/>
 
         <ImageView
-            android:id="@+id/odometro_inicial_img_view"
+            android:id="@+id/odometro_img_view"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"

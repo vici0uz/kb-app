@@ -2,14 +2,13 @@ package com.odoo.addons.maquinaria.wizard;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.nicolkill.validator.NumberValidator;
-import com.nicolkill.validator.Validator;
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.base.addons.ir.feature.OFileManager;
@@ -29,7 +28,9 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private OFileManager fileManager;
     private OValues oValues;
     private String newImage = null;
-    private ImageView imgOdometroInicial;
+    private ImageView imgOdometro;
+    private EditText entradaOdometro;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -62,9 +63,16 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private void initializePages(){
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
-        coordinatorLayout.setScrollingEnabled(true);
-        coordinatorLayout.addPage(R.layout.wizard_inicial3, R.layout.wizard_layout4, R.layout.wizard_layout5);
-        imgOdometroInicial = (ImageView) findViewById(R.id.odometro_inicial_img_view);
+        coordinatorLayout.setScrollingEnabled(false);
+        coordinatorLayout.addPage(R.layout.wizard_pagina_odometro, R.layout.wizard_layout4, R.layout.wizard_layout5);
+
+        entradaOdometro = (EditText) findViewById(R.id.entrada_odometro);
+        entradaOdometro.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+//        entradaOdometro.set
+        entradaOdometro.setImeOptions(EditorInfo.IME_ACTION_DONE);
+//        entradaOdometro.setIm
+//        entradaOdometro.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        imgOdometro = (ImageView) findViewById(R.id.odometro_img_view);
 
         findViewById(R.id.next).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
@@ -81,7 +89,15 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
             case R.id.next:
                 switch (page){
                     case 0:
-                        coordinatorLayout.setCurrentPage(page + 1, true);
+                        if(isEmpty(entradaOdometro)){
+                            entradaOdometro.setError(getString(R.string.entrada_required));
+                        }
+                        else if(newImage == null){
+                            Toast.makeText(this, getResources().getString(R.string.take_odometro_pic), Toast.LENGTH_SHORT).show();
+                        }
+                        else {
+                            coordinatorLayout.setCurrentPage(page + 1, true);
+                        }
                         break;
                     case 1:
                         break;
@@ -140,13 +156,17 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         OValues values = fileManager.handleResult(requestCode, resultCode, data);
         if (values != null && !values.contains("size_limit_exceed")){
             newImage = values.getString("datas");
-            imgOdometroInicial.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            imgOdometroInicial.setColorFilter(null);
-            imgOdometroInicial.setImageBitmap(BitmapUtils.getBitmapImage(this, newImage));
-            imgOdometroInicial.setVisibility(View.VISIBLE);
+            imgOdometro.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            imgOdometro.setColorFilter(null);
+            imgOdometro.setImageBitmap(BitmapUtils.getBitmapImage(this, newImage));
+            imgOdometro.setVisibility(View.VISIBLE);
         }
         else if (values != null){
             Toast.makeText(this, "Imagen muy grande", Toast.LENGTH_LONG).show();
         }
+    }
+
+    private boolean isEmpty(EditText etText) {
+        return etText.getText().toString().trim().length() == 0;
     }
 }

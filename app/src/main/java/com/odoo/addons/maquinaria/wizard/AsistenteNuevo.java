@@ -2,7 +2,7 @@ package com.odoo.addons.maquinaria.wizard;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.text.InputType;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -84,13 +84,14 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
         coordinatorLayout.setScrollingEnabled(false);
-        coordinatorLayout.addPage(R.layout.wizard_inicial1,R.layout.wizard_inicial2,R.layout.wizard_inicial3, R.layout.wizard_inicial4);
+        coordinatorLayout.addPage(R.layout.wizard_inicial1,R.layout.wizard_inicial2,R.layout.wizard_pagina_odometro, R.layout.wizard_inicial4);
 
         spinnerMaquina = (Spinner) findViewById(R.id.spinner_maquina);
         spinnerLugares = (Spinner) findViewById(R.id.spinner_lugar);
 
-        entradaOdometro = (EditText) findViewById(R.id.entrada_odometro_inicial);
-        imgOdometroInicial = (ImageView) findViewById(R.id.odometro_inicial_img_view);
+        entradaOdometro = (EditText) findViewById(R.id.entrada_odometro);
+        entradaOdometro.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        imgOdometroInicial = (ImageView) findViewById(R.id.odometro_img_view);
 
         findViewById(R.id.next).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
@@ -140,9 +141,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
     @Override
     public void onClick(View v) {
+        int page = coordinatorLayout.getPageSelected();
         switch (v.getId()){
             case R.id.next:
-                int page = coordinatorLayout.getPageSelected();
                 switch (page){
                     case 0:
                         if (spinnerMaquina.getSelectedItemPosition() != 0) {
@@ -169,7 +170,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                         break;
                     case 2:
                         if(isEmpty(entradaOdometro)){
-                            entradaOdometro.setError("Requerido");
+                            entradaOdometro.setError(getString(R.string.entrada_required));
                         }
                         else if(newImage == null){
                             Toast.makeText(this, getResources().getString(R.string.take_odometro_pic), Toast.LENGTH_SHORT).show();
@@ -212,16 +213,10 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
                     maquinariaTrabajoLinea.sync().requestSync(Trabajo.AUTHORITY);
                 }
-                    OValues maquinaValues = new OValues();
-                    maquinaValues.put("turno_estado",
-                            "open");
-                    maquinariaMaquina.browse(rowId).put("turno_estado", "open");
-                    String maquina = maquinariaMaquina.browse(rowId).getString("name");
-                    Log.i("ALAN DEBUG: mach ",maquina);
-                    maquinariaMaquina.update(rowId, maquinaValues);
-                    Log.i("ALAN DEBUG: aft", maquinariaMaquina.browse(rowId).getString("turno_estado"));
-//                    maquinariaMaquina.sync().requestSync(Maquina.AUTHORITY);
-
+                OValues maquinaValues = new OValues();
+                maquinaValues.put("turno_estado", "open");
+                maquinariaMaquina.browse(rowId).put("turno_estado", "open");
+                maquinariaMaquina.update(rowId, maquinaValues);
 
                 finish();
                 break;
