@@ -218,7 +218,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                     maquinariaMaquina.browse(rowId).put("turno_estado", "open");
                     String maquina = maquinariaMaquina.browse(rowId).getString("name");
                     Log.i("ALAN DEBUG: mach ",maquina);
-                    maquinariaMaquina.update(rowId, values);
+                    maquinariaMaquina.update(rowId, maquinaValues);
                     Log.i("ALAN DEBUG: aft", maquinariaMaquina.browse(rowId).getString("turno_estado"));
 //                    maquinariaMaquina.sync().requestSync(Maquina.AUTHORITY);
 

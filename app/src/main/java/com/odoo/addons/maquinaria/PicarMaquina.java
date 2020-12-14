@@ -46,6 +46,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        setHasOptionsMenu(true);
 //        setHasSyncStatusObserver(KEY, this,db());
+
         return inflater.inflate(R.layout.common_listview, container,false);
     }
 
@@ -54,7 +55,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mView = view;
-
+        mView.findViewById(R.id.fabButton).setVisibility(View.GONE);
         ListView mListaMaquinas = (ListView) view.findViewById(R.id.listview);
         mAdapter = new OCursorListAdapter(getActivity(), null, R.layout.maquina_row_item);
         mAdapter.setOnViewBindListener(this);
@@ -142,24 +143,13 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
     private void loadActivity(ODataRow row) {
         Bundle data = new Bundle();
-//        if (row != null) {
-//            data = row.getPrimaryBundleData();
-//            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
-//        }
-//        else {
-//            IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
-//        }
         data = row.getPrimaryBundleData();
-        Log.i("ALAN DEBUG: ", row.get("turno_estado").toString());
         row.getString("turno_estado");
         if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
             IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
         }else {
             IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
-//        data.putString(CustomerDetails.KEY_PARTNER_TYPE, mType.toString());
-//        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
-
     }
 
     @Override
