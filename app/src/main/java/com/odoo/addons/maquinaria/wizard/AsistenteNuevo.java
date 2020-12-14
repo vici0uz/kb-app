@@ -1,13 +1,8 @@
 package com.odoo.addons.maquinaria.wizard;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -25,10 +20,8 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
-import com.odoo.core.orm.provider.BaseModelProvider;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.OdooCompatActivity;
-import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.utils.BitmapUtils;
 import com.odoo.core.utils.IntentUtils;
 import com.redbooth.WelcomeCoordinatorLayout;
@@ -44,9 +37,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     private OValues values = new OValues();
 
     /* TABLAS */
-    private Trabajo turnoTrabajo;
-    private Maquina maquina;
-    private Destino lugarTrabajo;
+    private Trabajo maquinariaTrabajoLinea;
+    private Maquina maquinariaMaquina;
+    private Destino maquinariaDestino;
 
     // Modelos
     private OModel modelLugar;
@@ -67,6 +60,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     private ImageView imgOdometroInicial;
     private Bundle extras;
 
+
+    int rowId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -75,9 +71,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
         fileManager = new OFileManager(this);
 
-        turnoTrabajo = new Trabajo(this, null);
-        maquina = new Maquina(this, null);
-        lugarTrabajo = new Destino(this, null);
+        maquinariaTrabajoLinea = new Trabajo(this, null);
+        maquinariaMaquina = new Maquina(this, null);
+        maquinariaDestino = new Destino(this, null);
 
         extras = this.getIntent().getExtras();
 
@@ -112,20 +108,17 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         recordMaquinas = modelMaquina.select();
         recordLugares = modelLugar.select();
 //        ODataRow data = extras.get("data");
-        int rowId = extras.getInt(OColumn.ROW_ID);
+        rowId = extras.getInt(OColumn.ROW_ID);
         int defaultPos=0;
         for (ODataRow row: recordMaquinas) {
-            String maquinaName = maquina.browse(row.getInt("id")).getString("name");
+            String maquinaName = maquinariaMaquina.browse(row.getInt("id")).getString("name");
             if (row.getInt("id").equals(rowId)){
                 defaultPos = recordMaquinas.indexOf(row)+1;
-                Log.i("ALAN DEBUG: ", "Son el mesmo");
-                Log.i("ALAN DEBUG: la posi es ", String.valueOf(recordMaquinas.indexOf(row)));
             }
-            else Log.i("ALAN DEBUG: ", "No papu, no");
             listaMaquinas.add(maquinaName);
         }
         for (ODataRow row: recordLugares){
-            String lugarName = lugarTrabajo.browse(row.getInt("id")).getString("name");
+            String lugarName = maquinariaDestino.browse(row.getInt("id")).getString("name");
             listaLugares.add(lugarName);
         }
 
@@ -214,11 +207,22 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                 }
                 break;
             case R.id.end:
-                final int row_id = turnoTrabajo.insert(values);
+                final int row_id = maquinariaTrabajoLinea.insert(values);
                 if( row_id != OModel.INVALID_ROW_ID) {
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
-                    turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
+                    maquinariaTrabajoLinea.sync().requestSync(Trabajo.AUTHORITY);
                 }
+                    OValues maquinaValues = new OValues();
+                    maquinaValues.put("turno_estado",
+                            "open");
+                    maquinariaMaquina.browse(rowId).put("turno_estado", "open");
+                    String maquina = maquinariaMaquina.browse(rowId).getString("name");
+                    Log.i("ALAN DEBUG: mach ",maquina);
+                    maquinariaMaquina.update(rowId, values);
+                    Log.i("ALAN DEBUG: aft", maquinariaMaquina.browse(rowId).getString("turno_estado"));
+//                    maquinariaMaquina.sync().requestSync(Maquina.AUTHORITY);
+
+
                 finish();
                 break;
             case R.id.btn_registrar_odometro_img:
@@ -253,7 +257,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     }
 
     private String getInfo(){
-        String info = String.format("Maquína: %s \n Lugar: %s \n Odometro actual: %s",spinnerMaquina.getSelectedItem().toString(), spinnerLugares.getSelectedItem().toString(), entradaOdometro.getText().toString());
+        String info = String.format("Maquina: %s \n Lugar: %s \n Odometro actual: %s",spinnerMaquina.getSelectedItem().toString(), spinnerLugares.getSelectedItem().toString(), entradaOdometro.getText().toString());
     return info;
     }
 

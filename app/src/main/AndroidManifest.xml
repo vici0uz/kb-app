@@ -115,7 +115,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/maquinaria_sync_adapter"/>
         </service>
-
+<!--LUGARES-->
         <provider
             android:name="com.odoo.addons.maquinaria.providers.MaquinariaDestinoSyncProvider"
             android:authorities="com.odoo.addons.maquinaria.content.sync.maquinaria_destino"
@@ -132,7 +132,7 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/destino_sync_adapter"/>
         </service>
-
+<!--MAQUINAS-->
         <provider
             android:name="com.odoo.addons.maquinaria.providers.MaquinariaMaquinaSyncProvider"
             android:authorities="com.odoo.addons.maquinaria.content.sync.maquinaria_maquina"

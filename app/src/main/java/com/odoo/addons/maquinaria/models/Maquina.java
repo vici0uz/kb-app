@@ -19,7 +19,6 @@ public class Maquina extends OModel {
     OColumn turno_estado = new OColumn("Turno", OSelection.class)
             .addSelection("open", "Abierto")
             .addSelection("close", "Cerrado")
-            .setDefaultValue("close")
             .setLocalColumn();
 
 

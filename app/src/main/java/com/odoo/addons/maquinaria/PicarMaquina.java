@@ -118,7 +118,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
                 }
             }, 500);
             if (db().isEmptyTable() && !syncRequested) {
-                Log.i("ALAN DEBUG: ", "Ahora sos una de mis frescas");
                 syncRequested = true;
                 onRefresh();
             }
@@ -152,7 +151,8 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 //        }
         data = row.getPrimaryBundleData();
         Log.i("ALAN DEBUG: ", row.get("turno_estado").toString());
-        if (row.getString("turno_estado").equals("close")){
+        row.getString("turno_estado");
+        if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
             IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
         }else {
             IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
@@ -170,6 +170,5 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public void onStatusChange(Boolean refreshing) {
         getLoaderManager().restartLoader(0, null, this);
-
     }
 }
