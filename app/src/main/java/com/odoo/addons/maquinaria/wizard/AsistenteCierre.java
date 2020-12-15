@@ -26,10 +26,10 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private ODataRow record = null;
     private Bundle extras;
     private OFileManager fileManager;
-    private OValues oValues;
+    private OValues oValues = new OValues();
     private String newImage = null;
     private ImageView imgOdometro;
-    private EditText entradaOdometro;
+    private EditText entradaOdometro, entradaDescripcion, entradaObservacion, entradaCombustible;
 
 
     @Override
@@ -63,16 +63,21 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private void initializePages(){
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
-        coordinatorLayout.setScrollingEnabled(false);
-        coordinatorLayout.addPage(R.layout.wizard_pagina_odometro, R.layout.wizard_layout4, R.layout.wizard_layout5);
+        coordinatorLayout.setScrollingEnabled(true);
+        coordinatorLayout.addPage(R.layout.wizard_pagina_odometro, R.layout.wizard_pagina_descripcion_trabajo, R.layout.wizard_pagina_combustible, R.layout.wizard_info_confirmacion);
 
         entradaOdometro = (EditText) findViewById(R.id.entrada_odometro);
         entradaOdometro.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-//        entradaOdometro.set
         entradaOdometro.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//        entradaOdometro.setIm
-//        entradaOdometro.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+
         imgOdometro = (ImageView) findViewById(R.id.odometro_img_view);
+
+        entradaDescripcion =(EditText)findViewById(R.id.text_trabajo_edit);
+        entradaObservacion = (EditText)findViewById(R.id.edit_observacion);
+
+        entradaCombustible = (EditText)findViewById(R.id.entrada_combustible);
+        entradaCombustible.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        entradaCombustible.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         findViewById(R.id.next).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
@@ -84,6 +89,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     @Override
     public void onClick(View view) {
         int page = coordinatorLayout.getPageSelected();
+        int pageNumber = (coordinatorLayout.getNumOfPages() +1);
 
         switch (view.getId()) {
             case R.id.next:
@@ -96,10 +102,19 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                             Toast.makeText(this, getResources().getString(R.string.take_odometro_pic), Toast.LENGTH_SHORT).show();
                         }
                         else {
+                            float odometro_final = Float.parseFloat(entradaOdometro.getText().toString());
+                            oValues.put("odometro_final", odometro_final);
+                            oValues.put("odometro_final_imagen", newImage);
                             coordinatorLayout.setCurrentPage(page + 1, true);
                         }
                         break;
                     case 1:
+                        if(isEmpty(entradaDescripcion)){
+                            entradaDescripcion.setError(getString(R.string.entrada_required));
+                        }
+                        else{
+                            coordinatorLayout.setCurrentPage(page + 1, true);
+                        }
                         break;
                 }
                 break;
@@ -125,28 +140,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
             case R.id.label_observacion:
                 findViewById(R.id.edit_observacion).setVisibility(View.VISIBLE);
                 break;
-//            case R.id.btn_registrar_odometro:
-////                Toast.makeText(this, "Joder", Toast.LENGTH_SHORT).show();
-//                Validator validator = new NumberValidator();
-//                oValues = new OValues();
-//                EditText entrada_odometro = (EditText) findViewById(R.id.entrada_odometro);
-//                if(validator.isValid(entrada_odometro.getText().toString())){
-//                    Toast.makeText(this, "Joder hay numero", Toast.LENGTH_SHORT).show();
-//                    oValues.put("odometro_inicial", entrada_odometro.getText().toString());
-////                    turnoTrabajo.update(record.getInt(OColumn.ROW_ID), oValues);
-////                    turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
-//                    coordinatorLayout.setCurrentPage(coordinatorLayout.getNumOfPages() - 1, true);
-//
-//                }
-//                else
-//                    Toast.makeText(this, "La cagaste mal papu", Toast.LENGTH_SHORT).show();
-//                break;
-//            case R.id.btn_registrar_odometro_imagen:
-////                Log.i("ALAN DEBUG", "Img");
-//                fileManager.requestForFile(OFileManager.RequestType.CAPTURE_IMAGE);
-//                break;
-//
-//        }
+
         }
     }
 

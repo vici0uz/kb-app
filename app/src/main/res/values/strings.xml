@@ -33,4 +33,5 @@
     <string name="msg_lugar_perdido">Ingrese el nombre de la localidad que falta</string>
     <string name="title_lugar_perdido">Añade la localidad que falta</string>
     <string name="entrada_required">Requerido</string>
+    <string name="msg_carga_combustible">Si cargaste combustible durante tu turno, anotá la cantidad aquí</string>
 </resources>

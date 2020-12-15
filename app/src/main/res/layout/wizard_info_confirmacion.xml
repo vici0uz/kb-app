@@ -21,7 +21,7 @@
             android:id="@+id/info_titulo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Inicio del turno"
+            android:text="Se guardara la siguiente información:"
             android:textStyle="bold"
             android:textSize="@dimen/text_size_xxlarge"
             android:layout_centerHorizontal="true"/>

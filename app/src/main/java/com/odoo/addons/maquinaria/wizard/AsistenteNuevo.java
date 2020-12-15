@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -84,13 +85,15 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
         coordinatorLayout.setScrollingEnabled(false);
-        coordinatorLayout.addPage(R.layout.wizard_inicial1,R.layout.wizard_inicial2,R.layout.wizard_pagina_odometro, R.layout.wizard_inicial4);
+        coordinatorLayout.addPage(R.layout.wizard_inicial1,R.layout.wizard_inicial2,R.layout.wizard_pagina_odometro, R.layout.wizard_info_confirmación);
 
         spinnerMaquina = (Spinner) findViewById(R.id.spinner_maquina);
         spinnerLugares = (Spinner) findViewById(R.id.spinner_lugar);
 
         entradaOdometro = (EditText) findViewById(R.id.entrada_odometro);
         entradaOdometro.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
+        entradaOdometro.setImeOptions(EditorInfo.IME_ACTION_DONE);
+
         imgOdometroInicial = (ImageView) findViewById(R.id.odometro_img_view);
 
         findViewById(R.id.next).setOnClickListener(this);

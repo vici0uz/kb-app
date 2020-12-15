@@ -34,6 +34,7 @@
             tools:ignore="MissingPrefix"
             android:inputType="textMultiLine"
             android:background="@color/body_text_1_inverse"
+            android:textSize="25sp"
             android:layout_below="@+id/title_descripcion"
             android:layout_marginLeft="@dimen/default_16dp"
             android:layout_marginRight="@dimen/default_16dp"
@@ -54,6 +55,7 @@
             android:gravity="center"
             android:padding="5dp"
             android:fontFamily="@string/font_light"
+            android:textSize="@dimen/text_size_large"
             android:textColorLink="#ffffff"
             android:textColor="#ffffff"/>
         <ImageView
@@ -69,6 +71,8 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="64dp"
             android:layout_marginRight="64dp"
+            android:textSize="25sp"
+
             android:background="@color/android_orange"
             android:visibility="gone"
             android:layout_below="@id/obseracion_control"
