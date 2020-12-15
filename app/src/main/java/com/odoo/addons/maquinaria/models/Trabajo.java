@@ -49,6 +49,8 @@ public class Trabajo extends OModel {
     OColumn observacion = new OColumn("Observación del trabajo", OText.class).setSize(256);
     OColumn tiene_observacion = new OColumn("Tiene observación", OBoolean.class).setDefaultValue(false);
 
+    OColumn combustible = new OColumn("Combustible", OFloat.class);
+
     public Trabajo(Context context, OUser user) {
         super(context, "maquinaria.trabajo.linea", user);
     }

@@ -21,7 +21,7 @@ public class Maquina extends OModel {
             .addSelection("close", "Cerrado")
             .setDefaultValue("close")
             .setLocalColumn();
-
+    OColumn turno_abierto_id = new OColumn("Ultimo turno abierto", Trabajo.class,  OColumn.RelationType.ManyToOne).setLocalColumn();
 
     @Override
     public Uri uri() {

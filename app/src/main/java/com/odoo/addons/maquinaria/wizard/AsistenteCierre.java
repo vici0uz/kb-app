@@ -1,12 +1,14 @@
 package com.odoo.addons.maquinaria.wizard;
 
 import android.content.Intent;
+import android.net.http.DelegatingSSLSession;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.odoo.R;
@@ -30,6 +32,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private String newImage = null;
     private ImageView imgOdometro;
     private EditText entradaOdometro, entradaDescripcion, entradaObservacion, entradaCombustible;
+    private TextView infoRecopilada;
 
 
     @Override
@@ -54,9 +57,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         if( hasRecordInExtra()){
             int rowId = extras.getInt(OColumn.ROW_ID);
             record = turnoTrabajo.browse(rowId);
-
         }
-
     }
 
 
@@ -111,11 +112,25 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                     case 1:
                         if(isEmpty(entradaDescripcion)){
                             entradaDescripcion.setError(getString(R.string.entrada_required));
+
                         }
                         else{
+                            oValues.put("descripcion", entradaDescripcion.getText().toString());
+                            if (!isEmpty(entradaObservacion)){
+                                oValues.put("observacion", entradaObservacion.getText().toString());
+                                oValues.put("tiene_observacion", true);
+                            }
                             coordinatorLayout.setCurrentPage(page + 1, true);
+                            // INICIALIZA INMEDIATAMENTE LA 3 PAGINA
+                            findViewById(R.id.next).setVisibility(View.GONE);
+                            findViewById(R.id.end).setVisibility(View.VISIBLE);
+                            String info = getInfo();
+                            infoRecopilada = (TextView) findViewById(R.id.info_recopilada);
+                            infoRecopilada.setText(info);
                         }
                         break;
+                    case 2:
+
                 }
                 break;
             case R.id.back:
@@ -162,5 +177,15 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
 
     private boolean isEmpty(EditText etText) {
         return etText.getText().toString().trim().length() == 0;
+    }
+
+    private String getInfo(){
+        String info = "";
+        info = String.format("Odometro: %s\nTrabajo: %s\n ",oValues.getString("odometro_final"),oValues.getString("descripcion"));
+        if(!isEmpty(entradaCombustible))
+            info += String.format("Combustible: %s\n", oValues.getString("combustible"));
+        if(!isEmpty(entradaObservacion))
+            info += String.format("Observación: %s\n", oValues.getString("observación"));
+        return info;
     }
 }

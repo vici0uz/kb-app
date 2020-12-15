@@ -62,7 +62,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     private Bundle extras;
 
 
-    int rowId;
+    private int rowId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -85,7 +85,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
         coordinatorLayout.setScrollingEnabled(false);
-        coordinatorLayout.addPage(R.layout.wizard_inicial1,R.layout.wizard_inicial2,R.layout.wizard_pagina_odometro, R.layout.wizard_info_confirmación);
+        coordinatorLayout.addPage(R.layout.wizard_inicial1,R.layout.wizard_inicial2,R.layout.wizard_pagina_odometro, R.layout.wizard_info_confirmacion);
 
         spinnerMaquina = (Spinner) findViewById(R.id.spinner_maquina);
         spinnerLugares = (Spinner) findViewById(R.id.spinner_lugar);
@@ -111,7 +111,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
         recordMaquinas = modelMaquina.select();
         recordLugares = modelLugar.select();
-//        ODataRow data = extras.get("data");
         rowId = extras.getInt(OColumn.ROW_ID);
         int defaultPos=0;
         for (ODataRow row: recordMaquinas) {
@@ -130,8 +129,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         listaMaquinas.add(0,getString(R.string.pick_one_item) );
         listaLugares.add(0, getString(R.string.pick_one_item));
 
-
-//CustomAdapter adapterSpinnerMaquinas = new CustomAdapter(this, android.R.layout.simple_spinner_dropdown_item, recordMaquinas, hidingItemIndex);
         CustomAdapter adapterSpinnerMaquinas = new CustomAdapter(this, android.R.layout.simple_spinner_dropdown_item, listaMaquinas, hidingItemIndex);
         CustomAdapter adapterSpinnerLugares = new CustomAdapter(this, android.R.layout.simple_spinner_dropdown_item, listaLugares, hidingItemIndex);
 
