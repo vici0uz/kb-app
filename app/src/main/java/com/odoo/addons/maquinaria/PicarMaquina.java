@@ -148,6 +148,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
         if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
             IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
         }else {
+
             IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
     }

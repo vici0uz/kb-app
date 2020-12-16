@@ -3,6 +3,7 @@ package com.odoo.addons.maquinaria.wizard;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -213,10 +214,13 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
                     maquinariaTrabajoLinea.sync().requestSync(Trabajo.AUTHORITY);
                 }
+                Log.i("ALAN DEBUG: tc", String.valueOf(row_id));
                 OValues maquinaValues = new OValues();
                 maquinaValues.put("turno_estado", "open");
-                maquinariaMaquina.browse(rowId).put("turno_estado", "open");
+                maquinaValues.put("turno_abierto_id", row_id);
+//                maquinariaMaquina.browse(rowId).put("turno_estado", "open");
                 maquinariaMaquina.update(rowId, maquinaValues);
+
 
                 finish();
                 break;
