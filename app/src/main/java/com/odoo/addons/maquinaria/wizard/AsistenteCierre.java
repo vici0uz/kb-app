@@ -21,6 +21,7 @@ import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.support.OdooCompatActivity;
 import com.odoo.core.utils.BitmapUtils;
+import com.odoo.core.utils.ODateUtils;
 import com.redbooth.WelcomeCoordinatorLayout;
 
 
@@ -166,6 +167,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                 if (record != null){
                     if(record.getInt("turno_abierto_id")!= null){
                         int turno_id = record.getInt("turno_abierto_id");
+                        oValues.put("hora_cierre", ODateUtils.getUTCDate());
                         turnoTrabajo.update(turno_id, oValues);
                         OValues maquinaVals = new OValues();
                         maquinaVals.put("turno_estado", "close");

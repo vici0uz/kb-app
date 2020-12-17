@@ -22,10 +22,13 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
+import com.odoo.core.orm.fields.types.ODateTime;
+import com.odoo.core.orm.fields.types.OTimestamp;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.OdooCompatActivity;
 import com.odoo.core.utils.BitmapUtils;
 import com.odoo.core.utils.IntentUtils;
+import com.odoo.core.utils.ODateUtils;
 import com.redbooth.WelcomeCoordinatorLayout;
 
 import java.util.ArrayList;
@@ -152,7 +155,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                             int pos = spinnerMaquina.getSelectedItemPosition();
                             int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
                             values.put("maquina_id", maquina_id);
-                            coordinatorLayout.setCurrentPage(page + 1, true);
+//                            coordinatorLayout.setCurrentPage(page + 1, true);
 
                         } else {
                             Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
@@ -209,16 +212,16 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                 }
                 break;
             case R.id.end:
+
+                values.put("hora_inicio", ODateUtils.getUTCDate());
                 final int row_id = maquinariaTrabajoLinea.insert(values);
                 if( row_id != OModel.INVALID_ROW_ID) {
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
                     maquinariaTrabajoLinea.sync().requestSync(Trabajo.AUTHORITY);
                 }
-                Log.i("ALAN DEBUG: tc", String.valueOf(row_id));
                 OValues maquinaValues = new OValues();
                 maquinaValues.put("turno_estado", "open");
                 maquinaValues.put("turno_abierto_id", row_id);
-//                maquinariaMaquina.browse(rowId).put("turno_estado", "open");
                 maquinariaMaquina.update(rowId, maquinaValues);
 
 
