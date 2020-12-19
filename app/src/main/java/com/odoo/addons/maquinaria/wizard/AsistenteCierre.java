@@ -72,7 +72,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private void initializePages(){
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
-        coordinatorLayout.setScrollingEnabled(true);
+        coordinatorLayout.setScrollingEnabled(false);
         coordinatorLayout.addPage(R.layout.wizard_pagina_odometro, R.layout.wizard_pagina_descripcion_trabajo, R.layout.wizard_pagina_combustible, R.layout.wizard_info_confirmacion);
 
         entradaOdometro = (EditText) findViewById(R.id.entrada_odometro);
@@ -167,13 +167,12 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                 if (record != null){
                     if(record.getInt("turno_abierto_id")!= null){
                         int turno_id = record.getInt("turno_abierto_id");
-                        oValues.put("hora_cierre", ODateUtils.getUTCDate());
+                        oValues.put("hora_final", ODateUtils.getUTCDate());
                         turnoTrabajo.update(turno_id, oValues);
                         OValues maquinaVals = new OValues();
                         maquinaVals.put("turno_estado", "close");
                         maquinaVals.put("turno_abierto_id", null);
                         maquinariaMaquina.update(maquinaId, maquinaVals);
-                        Log.i("ALAN DEBUG: ka id", String.valueOf(turno_id));
                         maquinariaMaquina.sync().requestSync(Maquina.AUTHORITY);
                         turnoTrabajo.sync().requestSync(Trabajo.AUTHORITY);
                     }

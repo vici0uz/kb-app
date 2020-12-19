@@ -5,6 +5,7 @@ import android.net.Uri;
 
 import com.odoo.BuildConfig;
 import com.odoo.base.addons.res.ResPartner;
+import com.odoo.base.addons.res.ResUsers;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.annotation.Odoo;
@@ -39,7 +40,6 @@ public class Trabajo extends OModel {
     OColumn odometro_final_imagen = new OColumn("Odometro final imagen", OBlob.class);
     OColumn status = new OColumn("Estado", OSelection.class)
             .addSelection("abierto","Abierto")
-            .addSelection("mitad", "Mitad")
             .addSelection("cerrado", "Cerrado");
     OColumn trabajo_destino = new OColumn("Lugar de trabajo", Destino.class, OColumn.RelationType.ManyToOne);
 

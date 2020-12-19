@@ -22,8 +22,6 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
-import com.odoo.core.orm.fields.types.ODateTime;
-import com.odoo.core.orm.fields.types.OTimestamp;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.OdooCompatActivity;
 import com.odoo.core.utils.BitmapUtils;
@@ -40,11 +38,11 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
     private OFileManager fileManager;
     private OValues values = new OValues();
-
+    private OUser user;
     /* TABLAS */
     private Trabajo maquinariaTrabajoLinea;
     private Maquina maquinariaMaquina;
-    private Destino maquinariaDestino;
+    private Destino maquinariaLugarTrabajo;
 
     // Modelos
     private OModel modelLugar;
@@ -66,6 +64,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     private Bundle extras;
 
 
+
     private int rowId;
 
     @Override
@@ -78,7 +77,10 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
         maquinariaTrabajoLinea = new Trabajo(this, null);
         maquinariaMaquina = new Maquina(this, null);
-        maquinariaDestino = new Destino(this, null);
+        maquinariaLugarTrabajo = new Destino(this, null);
+
+        user = OUser.current(this);
+
 
         extras = this.getIntent().getExtras();
 
@@ -118,14 +120,14 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         rowId = extras.getInt(OColumn.ROW_ID);
         int defaultPos=0;
         for (ODataRow row: recordMaquinas) {
-            String maquinaName = maquinariaMaquina.browse(row.getInt("id")).getString("name");
+            String maquinaName = maquinariaMaquina.browse(rowId).getString("name");
             if (row.getInt("id").equals(rowId)){
                 defaultPos = recordMaquinas.indexOf(row)+1;
             }
             listaMaquinas.add(maquinaName);
         }
         for (ODataRow row: recordLugares){
-            String lugarName = maquinariaDestino.browse(row.getInt("id")).getString("name");
+            String lugarName = maquinariaLugarTrabajo.browse(row.getInt("_id")).getString("name");
             listaLugares.add(lugarName);
         }
 
@@ -155,7 +157,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                             int pos = spinnerMaquina.getSelectedItemPosition();
                             int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
                             values.put("maquina_id", maquina_id);
-//                            coordinatorLayout.setCurrentPage(page + 1, true);
+                            coordinatorLayout.setCurrentPage(page + 1, true);
 
                         } else {
                             Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
@@ -214,6 +216,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
             case R.id.end:
 
                 values.put("hora_inicio", ODateUtils.getUTCDate());
+                values.put("operador", user.getPartnerId());
                 final int row_id = maquinariaTrabajoLinea.insert(values);
                 if( row_id != OModel.INVALID_ROW_ID) {
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
@@ -222,6 +225,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                 OValues maquinaValues = new OValues();
                 maquinaValues.put("turno_estado", "open");
                 maquinaValues.put("turno_abierto_id", row_id);
+                Log.i("ALAN DEBUG: user ", user.getPartnerId().toString());
                 maquinariaMaquina.update(rowId, maquinaValues);
 
 
