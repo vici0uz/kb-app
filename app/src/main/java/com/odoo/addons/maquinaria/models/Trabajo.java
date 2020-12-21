@@ -43,7 +43,9 @@ public class Trabajo extends OModel {
             .addSelection("cerrado", "Cerrado");
     OColumn trabajo_destino = new OColumn("Lugar de trabajo", Destino.class, OColumn.RelationType.ManyToOne);
 
-    OColumn operador = new OColumn("Operador", ResPartner.class, OColumn.RelationType.ManyToOne);
+//    OColumn operador = new OColumn("Operador", ResPartner.class, OColumn.RelationType.ManyToOne);
+
+    OColumn operario = new OColumn("Operador", ResPartner.class, OColumn.RelationType.ManyToOne);
 
     OColumn descripcion = new OColumn("Descripción del trabajo", OText.class);
     OColumn observacion = new OColumn("Observación del trabajo", OText.class).setSize(256);

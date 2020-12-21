@@ -114,7 +114,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                             float odometro_final = Float.parseFloat(entradaOdometro.getText().toString());
                             oValues.put("odometro_final", odometro_final);
                             oValues.put("odometro_final_imagen", newImage);
-                            coordinatorLayout.setCurrentPage(page + 1, true);
+                            coordinatorLayout.setCurrentPage(page + 1, false);
                         }
                         break;
                     case 1:
@@ -128,7 +128,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                                 oValues.put("observacion", entradaObservacion.getText().toString());
                                 oValues.put("tiene_observacion", true);
                             }
-                            coordinatorLayout.setCurrentPage(page + 1, true);
+                            coordinatorLayout.setCurrentPage(page + 1, false);
                             // INICIALIZA INMEDIATAMENTE LA 3 PAGINA
 
                         }
@@ -154,12 +154,12 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                         finish();
                         break;
                     case 3:
-                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, false);
                         findViewById(R.id.next).setVisibility(View.VISIBLE);
                         findViewById(R.id.end).setVisibility(View.GONE);
                         break;
                     default:
-                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, false);
                         break;
                 }
                 break;

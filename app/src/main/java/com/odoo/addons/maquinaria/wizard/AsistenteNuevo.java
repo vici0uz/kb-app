@@ -157,7 +157,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                             int pos = spinnerMaquina.getSelectedItemPosition();
                             int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
                             values.put("maquina_id", maquina_id);
-                            coordinatorLayout.setCurrentPage(page + 1, true);
+                            coordinatorLayout.setCurrentPage(page + 1, false);
 
                         } else {
                             Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
@@ -168,7 +168,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                             int pos = spinnerLugares.getSelectedItemPosition();
                             int lugar_id = recordLugares.get(pos-1).getInt(OColumn.ROW_ID);
                             values.put("trabajo_destino", lugar_id);
-                            coordinatorLayout.setCurrentPage(page+1,true);
+                            coordinatorLayout.setCurrentPage(page+1,false);
                         }
                         else {
                             Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
@@ -185,7 +185,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                             float odometro_inicial = Float.parseFloat(entradaOdometro.getText().toString());
                             values.put("odometro_inicial", odometro_inicial);
                             values.put("odometro_inicial_imagen", newImage);
-                            coordinatorLayout.setCurrentPage(3,true);
+                            coordinatorLayout.setCurrentPage(3,false);
 //                            INICIALIZA INMEDIATAMENTE LA 3 PAGINA
                             findViewById(R.id.next).setVisibility(View.GONE);
                             findViewById(R.id.end).setVisibility(View.VISIBLE);
@@ -204,19 +204,20 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                         finish();
                         break;
                     case 3:
-                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, false);
                         findViewById(R.id.next).setVisibility(View.VISIBLE);
                         findViewById(R.id.end).setVisibility(View.GONE);
                         break;
                     default:
-                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, true);
+                        coordinatorLayout.setCurrentPage(coordinatorLayout.getPageSelected() - 1, false);
                         break;
                 }
                 break;
             case R.id.end:
 
                 values.put("hora_inicio", ODateUtils.getUTCDate());
-                values.put("operador", user.getPartnerId());
+//                values.put("operador", user.getPartnerId().intValue());
+                values.put("operario", 7);
                 final int row_id = maquinariaTrabajoLinea.insert(values);
                 if( row_id != OModel.INVALID_ROW_ID) {
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
