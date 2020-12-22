@@ -20,6 +20,7 @@ import com.odoo.core.orm.fields.types.OSelection;
 import com.odoo.core.orm.fields.types.OText;
 import com.odoo.core.orm.fields.types.OVarchar;
 import com.odoo.core.support.OUser;
+import com.odoo.core.utils.ODateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,9 +29,11 @@ public class Trabajo extends OModel {
     public final static String  AUTHORITY = BuildConfig.APPLICATION_ID + ".addons.maquinaria.content.sync.maquinaria_trabajo_linea";
 
     OColumn maquina_id = new OColumn("Maquina", Maquina.class, OColumn.RelationType.ManyToOne);
+
     @Odoo.Functional(store=true, depends = {"maquina_id"}, method = "guardarNombreMaquina")
     OColumn maquina = new OColumn("Maquina", OVarchar.class).setLocalColumn().setSize(100);
     OColumn fecha_trabajo = new OColumn("Fecha", ODate.class);
+
     OColumn cerrado = new OColumn("Turno cerrado", OBoolean.class);
 
     OColumn odometro_inicial = new OColumn("Odometro inicial", OFloat.class);

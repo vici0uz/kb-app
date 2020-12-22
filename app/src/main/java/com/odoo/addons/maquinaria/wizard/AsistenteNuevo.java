@@ -216,8 +216,10 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
             case R.id.end:
 
                 values.put("hora_inicio", ODateUtils.getUTCDate());
+                values.put("fecha_trabajo", ODateUtils.getDate());
+                int operador_id = user.getPartnerId();
 //                values.put("operador", user.getPartnerId().intValue());
-                values.put("operario", 7);
+                values.put("operario", operador_id);
                 final int row_id = maquinariaTrabajoLinea.insert(values);
                 if( row_id != OModel.INVALID_ROW_ID) {
                     Toast.makeText(this, getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
