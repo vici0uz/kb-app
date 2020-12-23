@@ -9,7 +9,6 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,6 @@ import android.widget.Toast;
 
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Maquina;
-import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.addons.maquinaria.wizard.AsistenteCierre;
 import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
@@ -39,6 +37,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private View mView;
     private OCursorListAdapter mAdapter = null;
     private boolean syncRequested = false;
+    private boolean turno_abierto_xp = false;
 
 
     @Nullable
@@ -77,7 +76,12 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public void onViewBind(View view, Cursor cursor, ODataRow row) {
         OControls.setText(view, R.id.name, row.getString("name"));
-        OControls.setText(view, R.id.turno_estado, row.getString("turno_estado"));
+//        OControls.setText(view, R.id.turno_estado, row.getString("turno_estado"));
+        if(row.getString("turno_estado").equals("open")){
+            view.findViewById(R.id.linear_root).setBackgroundColor(getResources().getColor(R.color.android_orange));
+            view.findViewById(R.id.turno_abierto_indicator).setVisibility(View.VISIBLE);
+            turno_abierto_xp = true;
+        }
 
     }
 
@@ -147,9 +151,11 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
         row.getString("turno_estado");
         if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
-            IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
+            if(turno_abierto_xp != true)
+                IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
+            else
+                Toast.makeText(getActivity(), "Primero debe cerrar los turnos que ya haya abierto", Toast.LENGTH_LONG).show();
         }else {
-
             IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
     }

@@ -115,16 +115,16 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         Bundle data = new Bundle();
         if (row != null) {
             data = row.getPrimaryBundleData();
-            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
-        }
-        else {
-            IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
-        }
+//            IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
+//        }
+//        else {
+//            IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
+//        }
 //        data.putString(CustomerDetails.KEY_PARTNER_TYPE, mType.toString());
-//        IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
+            IntentUtils.startActivity(getActivity(), TurnoDetails.class, data);
 
+        }
     }
-
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle data) {

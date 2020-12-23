@@ -86,7 +86,7 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
 //        findViewById(R.id.turnoCaptureImage).setVisibility(edit ? View.VISIBLE : View.GONE);
         if (mMenu != null) {
 //            mMenu.findItem(R.id.menu_t_detail_more).setVisible(!edit);
-            mMenu.findItem(R.id.menu_turno_edit).setVisible(!edit);
+//            mMenu.findItem(R.id.menu_turno_edit).setVisible(!edit);
             mMenu.findItem(R.id.menu_turno_save).setVisible(edit);
             mMenu.findItem(R.id.menu_turno_cancel).setVisible(edit);
         }
@@ -184,16 +184,16 @@ public class TurnoDetails extends OdooCompatActivity implements View.OnClickList
                 }
                 break;
             case R.id.menu_turno_cancel:
-            case R.id.menu_turno_edit:
-                if(hasRecordInExtra()){
-                    mEditMode = !mEditMode;
-                    setMode(mEditMode);
-                    mForm.setEditable(mEditMode);
-                    mForm.initForm(record);
-
-                } else {
-                    finish();
-                }
+//            case R.id.menu_turno_edit:
+//                if(hasRecordInExtra()){
+//                    mEditMode = !mEditMode;
+//                    setMode(mEditMode);
+//                    mForm.setEditable(mEditMode);
+//                    mForm.initForm(record);
+//
+//                } else {
+//                    finish();
+//                }
                 break;
         }
         return super.onOptionsItemSelected(item);
