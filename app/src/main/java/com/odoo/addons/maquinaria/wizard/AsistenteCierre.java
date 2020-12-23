@@ -129,7 +129,6 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                                 oValues.put("tiene_observacion", true);
                             }
                             coordinatorLayout.setCurrentPage(page + 1, false);
-                            // INICIALIZA INMEDIATAMENTE LA 3 PAGINA
 
                         }
                         break;
@@ -137,7 +136,9 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                         if(!isEmpty(entradaCombustible)){
                             oValues.put("combustible", Float.parseFloat(entradaCombustible.getText().toString()));
                         }
-                        coordinatorLayout.setCurrentPage(page + 1, true);
+                        coordinatorLayout.setCurrentPage(page + 1, false);
+                        // INICIALIZA INMEDIATAMENTE LA 3 PAGINA
+
                         findViewById(R.id.next).setVisibility(View.GONE);
                         findViewById(R.id.end).setVisibility(View.VISIBLE);
                         String info = getInfo();

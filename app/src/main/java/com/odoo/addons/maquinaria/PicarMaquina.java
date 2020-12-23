@@ -45,7 +45,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 //        setHasOptionsMenu(true);
-//        setHasSyncStatusObserver(KEY, this,db());
+        setHasSyncStatusObserver(KEY, this,db());
 
         return inflater.inflate(R.layout.common_listview, container,false);
     }
@@ -144,6 +144,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private void loadActivity(ODataRow row) {
         Bundle data = new Bundle();
         data = row.getPrimaryBundleData();
+
         row.getString("turno_estado");
         if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
             IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
@@ -158,6 +159,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
         ODataRow row = OCursorUtils.toDatarow((Cursor) mAdapter.getItem(position));
         loadActivity(row);
     }
+
     @Override
     public void onStatusChange(Boolean refreshing) {
         getLoaderManager().restartLoader(0, null, this);

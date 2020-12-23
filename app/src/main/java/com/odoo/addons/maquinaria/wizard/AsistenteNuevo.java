@@ -6,6 +6,7 @@ import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -62,6 +63,8 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     private String newImage = null;
     private ImageView imgOdometroInicial;
     private Bundle extras;
+
+//    private int maquina_id;
 
 
 
@@ -120,7 +123,8 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         rowId = extras.getInt(OColumn.ROW_ID);
         int defaultPos=0;
         for (ODataRow row: recordMaquinas) {
-            String maquinaName = maquinariaMaquina.browse(rowId).getString("name");
+            String maquinaName = maquinariaMaquina.browse(row.getInt("id")).getString("name");
+            Log.i("ALAN DEBUG: efor ", maquinaName);
             if (row.getInt("id").equals(rowId)){
                 defaultPos = recordMaquinas.indexOf(row)+1;
             }
@@ -140,9 +144,29 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
         spinnerMaquina.setAdapter(adapterSpinnerMaquinas);
         spinnerLugares.setAdapter(adapterSpinnerLugares);
+
+        for (ODataRow row: recordMaquinas) {
+//            String maquinaName = maquinariaMaquina.browse(rowId).getString("name");
+            Log.i("ALAN DEBUG: efor ", row.getString("name"));
+
+        }
         if(defaultPos !=0)
             spinnerMaquina.setSelection(defaultPos);
 
+        spinnerMaquina.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                List<String> args = new ArrayList<>();
+                Log.i("ALAN DEBUG: ",parent.getSelectedItem().toString());
+//                maquinariaMaquina.select(new String[]{"id"}, "name like ?", )
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        spinnerMaquina.setEnabled(false);
     }
 
     @Override
@@ -152,15 +176,18 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
             case R.id.next:
                 switch (page){
                     case 0:
-                        if (spinnerMaquina.getSelectedItemPosition() != 0) {
-
-                            int pos = spinnerMaquina.getSelectedItemPosition();
-                            int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
-                            values.put("maquina_id", maquina_id);
-                            coordinatorLayout.setCurrentPage(page + 1, false);
-
-                        } else {
+                        if (spinnerMaquina.getSelectedItemPosition() == 0) {
+//                            int pos = spinnerMaquina.getSelectedItemPosition();
+//                            int maquina_id = recordMaquinas.get(pos-1).getInt(OColumn.ROW_ID);
+//                            values.put("maquina_id", maquina_id);
+//                            coordinatorLayout.setCurrentPage(page + 1, false);
+//
+//                        } else {
                             Toast.makeText(this, getResources().getText(R.string.please_pick_one), Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            values.put("maquina_id", rowId);
+                            coordinatorLayout.setCurrentPage(page + 1, false);
                         }
                         break;
                     case 1:
