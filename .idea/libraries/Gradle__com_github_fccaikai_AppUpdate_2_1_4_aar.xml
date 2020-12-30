@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.fccaikai:AppUpdate:2.1.4@aar">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/AppUpdate-2.1.4.aar/ecf49d64967a5eff2f31ca0f74f8d18b/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/AppUpdate-2.1.4.aar/ecf49d64967a5eff2f31ca0f74f8d18b/res" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/AppUpdate-2.1.4.aar/ecf49d64967a5eff2f31ca0f74f8d18b/AndroidManifest.xml" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

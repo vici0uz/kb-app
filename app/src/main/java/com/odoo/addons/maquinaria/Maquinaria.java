@@ -46,6 +46,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         List<ODrawerItem> items = new ArrayList<>();
         items.add(new ODrawerItem(KEY).setTitle("Escoger una maquina").setIcon(R.drawable.ic_excavator).setInstance(new PicarMaquina()));
         items.add(new ODrawerItem(KEY).setTitle("Turnos").setIcon(R.drawable.ic_baseline_history_toggle_off_24).setInstance(new Maquinaria()));
+        items.add(new ODrawerItem(KEY).setTitle("Actualizar app").setIcon(R.drawable.ic_baseline_system_update_24));
         return items;
     }
 
@@ -146,7 +147,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                     OControls.setGone(mView, R.id.loadingProgress);
                     OControls.setVisible(mView, R.id.swipe_container);
                     OControls.setGone(mView, R.id.data_list_no_item);
-//                    OControls.setGone(mView, R.id.fabButton);
+                    OControls.setGone(mView, R.id.fabButton);
                     setHasSwipeRefreshView(mView, R.id.swipe_container, Maquinaria.this);
                 }
             }, 500);
@@ -161,6 +162,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                     OControls.setImage(mView, R.id.icon, R.drawable.ic_action_customers);
                     OControls.setText(mView, R.id.title, _s(R.string.label_no_customer_found));
                     OControls.setText(mView, R.id.subTitle, "");
+                    OControls.setGone(mView, R.id.fabButton);
                 }
             }, 500);
             if (db().isEmptyTable() && !syncRequested) {

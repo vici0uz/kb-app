@@ -9,6 +9,7 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,7 +33,7 @@ import com.odoo.core.utils.OCursorUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnViewBindListener,  SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener, ISyncStatusObserverListener {
+public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnViewBindListener,  SwipeRefreshLayout.OnRefreshListener, LoaderManager.LoaderCallbacks<Cursor>, AdapterView.OnItemClickListener, AdapterView.OnItemLongClickListener, ISyncStatusObserverListener {
     public static final String KEY = PicarMaquina.class.getSimpleName();
     private View mView;
     private OCursorListAdapter mAdapter = null;
@@ -60,6 +61,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
         mAdapter.setOnViewBindListener(this);
         mListaMaquinas.setAdapter(mAdapter);
         mListaMaquinas.setOnItemClickListener(this);
+        mListaMaquinas.setOnItemLongClickListener(this);
         getLoaderManager().initLoader(0, null, this);
     }
     @Override
@@ -130,6 +132,13 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     }
 
     @Override
+    public void onResume(){
+        super.onResume();
+        Log.i("ALAN DEBUG: ", "volvi perras");
+//        for ODataRow in
+    }
+
+    @Override
     public void onRefresh() {
         if (inNetwork()) {
             parent().sync().requestSync(Maquina.AUTHORITY);
@@ -151,10 +160,10 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
         row.getString("turno_estado");
         if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
-            if(turno_abierto_xp != true)
+//            if(turno_abierto_xp != true)
                 IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
-            else
-                Toast.makeText(getActivity(), "Primero debe cerrar los turnos que ya haya abierto", Toast.LENGTH_LONG).show();
+//            else
+//                Toast.makeText(getActivity(), "Primero debe cerrar los turnos que ya haya abierto", Toast.LENGTH_LONG).show();
         }else {
             IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
@@ -169,5 +178,11 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public void onStatusChange(Boolean refreshing) {
         getLoaderManager().restartLoader(0, null, this);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+        Toast.makeText(getActivity(), "Joder alan", Toast.LENGTH_SHORT).show();
+        return true;
     }
 }
