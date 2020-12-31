@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 
 import com.odoo.addons.customers.services.CustomerSyncService;
+import com.odoo.addons.maquinaria.models.CargaCombustible;
 import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.base.addons.res.ResPartner;
 import com.odoo.core.orm.provider.BaseModelProvider;
@@ -17,7 +18,7 @@ public class MaquinariaTrabajoSyncProvider extends BaseModelProvider {
 
         @Override
         public String authority(){
-            return Trabajo.AUTHORITY;
+            return CargaCombustible.AUTHORITY;
         }
     }
 

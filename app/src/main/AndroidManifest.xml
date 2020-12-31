@@ -115,6 +115,23 @@
                 android:name="android.content.SyncAdapter"
                 android:resource="@xml/maquinaria_sync_adapter"/>
         </service>
+<!--        COMBUSTIBLE-->
+        <provider
+            android:name="com.odoo.addons.maquinaria.providers.CargaCombustibleSyncProvider"
+            android:authorities="com.odoo.addons.maquinaria.content.sync.maquinaria_combustible_carga"
+            android:label="Combustible"
+            android:multiprocess="true"/>
+
+        <service android:name=".addons.maquinaria.services.CargaCombustibleSyncService"
+            android:exported="true"
+            android:process=":sync_combustible">
+            <intent-filter>
+                <action android:name="android.content.SyncAdapter"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.content.SyncAdapter"
+                android:resource="@xml/combustible_sync_adapter"/>
+        </service>
 <!--LUGARES-->
         <provider
             android:name="com.odoo.addons.maquinaria.providers.MaquinariaDestinoSyncProvider"
