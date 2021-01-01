@@ -1,5 +1,6 @@
 package com.odoo.addons.maquinaria;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -182,7 +183,12 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+
         Toast.makeText(getActivity(), "Joder alan", Toast.LENGTH_SHORT).show();
+
+        AlertDialog.Builder dialogoCombu = new AlertDialog.Builder(getActivity());
+        dialogoCombu.setView(R.layout.dialog_cargar_combustible);
+        dialogoCombu.show();
         return true;
     }
 }
