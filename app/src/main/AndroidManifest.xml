@@ -176,6 +176,7 @@
 
         <activity android:name=".addons.maquinaria.wizard.AsistenteNuevo"/>
         <activity android:name=".addons.maquinaria.NuevoLugar"/>
+        <activity android:name=".addons.maquinaria.CustomUpdate"/>
     </application>
 
 </manifest>
