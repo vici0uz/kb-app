@@ -23,6 +23,7 @@ public class CargaCombustible extends OModel {
 
     @Override
     public Uri uri(){ return buildURI(AUTHORITY);}
+
     public CargaCombustible(Context context, OUser user) {
         super(context, "maquinaria.combustible.carga", user);
     }

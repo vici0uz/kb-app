@@ -22,6 +22,7 @@ public class Maquina extends OModel {
             .setDefaultValue("close")
             .setLocalColumn();
     OColumn turno_abierto_id = new OColumn("Ultimo turno abierto", Trabajo.class,  OColumn.RelationType.ManyToOne).setLocalColumn();
+    OColumn carga_combustible_ids = new OColumn("Combustible",CargaCombustible.class, OColumn.RelationType.OneToMany).setRelatedColumn("maquina_id");
 
     @Override
     public Uri uri() {

@@ -219,7 +219,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         if(!isEmpty(entradaCombustible))
             info += String.format("Combustible: %s\n", oValues.getString("combustible"));
         if(!isEmpty(entradaObservacion))
-            info += String.format("Observación: %s\n", oValues.getString("observación"));
+            info += String.format("Observación: %s\n", oValues.getString("observacion"));
         return info;
     }
 }
