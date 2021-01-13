@@ -263,6 +263,8 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
                 maquinariaMaquina.update(rowId, maquinaValues);
 
 
+
+
                 finish();
                 break;
             case R.id.btn_registrar_odometro_img:

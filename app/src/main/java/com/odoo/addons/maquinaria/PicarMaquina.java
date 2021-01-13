@@ -21,12 +21,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.odoo.R;
-import com.odoo.addons.maquinaria.models.CargaCombustible;
 import com.odoo.addons.maquinaria.models.Maquina;
 import com.odoo.addons.maquinaria.wizard.AsistenteCierre;
 import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
-import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
@@ -35,7 +33,6 @@ import com.odoo.core.support.list.OCursorListAdapter;
 import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OCursorUtils;
-import com.odoo.core.utils.ODateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +43,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private OCursorListAdapter mAdapter = null;
     private boolean syncRequested = false;
     private boolean turno_abierto_xp = false;
-    private CargaCombustible combustible;
     private OValues new_values;
 
 
@@ -71,15 +67,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
         mListaMaquinas.setOnItemClickListener(this);
         mListaMaquinas.setOnItemLongClickListener(this);
 
-
-        combustible = new CargaCombustible(getActivity(), null);
-        new_values = new OValues();
-
-        new_values.put("cantidad","15.0");
-        new_values.put("maquina_id", 2);
-        new_values.put("fecha_carga", ODateUtils.getUTCDate());
-        combustible.insert(new_values);
-        combustible.sync().requestSync(CargaCombustible.AUTHORITY);
         getLoaderManager().initLoader(0, null, this);
     }
     @Override
@@ -203,7 +190,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
 //        Toast.makeText(getActivity(), "Joder alan", Toast.LENGTH_SHORT).show();
 //        float cantidad;
-        combustible = new CargaCombustible(getActivity(), null);
+
 
         final ODataRow row = OCursorUtils.toDatarow((Cursor) mAdapter.getItem(position));
 
@@ -232,24 +219,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
                         entrada.setError("Ingrese una cantidad valida");
                     }
                     else{
-                        Log.i("ALAN DEBUG"," entra al if");
-                        float qty = Float.parseFloat(entrada.getText().toString());
-                        new_values.put("cantidad", qty);
-                        Log.i("ALAN DEBUG: ", new_values.getString("cantidad"));
-                        int maquina_id = row.getInt("id");
-                        Log.i("ALAN DEBUG", "id maquina"+ String.valueOf(maquina_id));
-                        new_values.put("maquina_id", row.getInt("id"));
-                        new_values.put("fecha_carga", ODateUtils.getDate());
-                        final int row_id = combustible.insert(new_values);
-                        if( row_id != OModel.INVALID_ROW_ID) {
-                            Toast.makeText(getActivity(), getResources().getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
-                            combustible.sync().requestSync(CargaCombustible.AUTHORITY);
-                            cerrarDialogo = true;
-
-                        }
-                        else
-                            Log.i("ALAN DEBUG: ", "no joda pue");
-//                        values.put("maquina_id",)
 
                     }
                     if (cerrarDialogo)
