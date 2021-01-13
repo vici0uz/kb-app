@@ -24,6 +24,7 @@ import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
+import com.odoo.core.orm.fields.types.ODate;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.OdooCompatActivity;
 import com.odoo.core.utils.BitmapUtils;
@@ -86,7 +87,9 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
 
 
         OValues combuValues = new OValues();
-        combuValues.put("cantidad", 12.9);
+        combuValues.put("cantidad", 15.9);
+        combuValues.put("maquina_id", 2);
+        combuValues.put("fecha_carga", ODateUtils.getUTCDate());
         int combu_row = combustible.insert(combuValues);
         if (combu_row != OModel.INVALID_ROW_ID){
             Toast.makeText(this, "ta ta ta papu", Toast.LENGTH_SHORT).show();

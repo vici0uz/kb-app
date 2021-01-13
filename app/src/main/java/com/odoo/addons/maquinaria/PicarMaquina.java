@@ -21,10 +21,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.odoo.R;
+import com.odoo.addons.maquinaria.models.Combustible;
 import com.odoo.addons.maquinaria.models.Maquina;
 import com.odoo.addons.maquinaria.wizard.AsistenteCierre;
 import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
+import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
@@ -33,6 +35,7 @@ import com.odoo.core.support.list.OCursorListAdapter;
 import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OCursorUtils;
+import com.odoo.core.utils.ODateUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +47,8 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private boolean syncRequested = false;
     private boolean turno_abierto_xp = false;
     private OValues new_values;
+    private Combustible combustible;
+
 
 
     @Nullable
@@ -191,6 +196,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 //        Toast.makeText(getActivity(), "Joder alan", Toast.LENGTH_SHORT).show();
 //        float cantidad;
 
+        combustible = new Combustible(getActivity(), null);
 
         final ODataRow row = OCursorUtils.toDatarow((Cursor) mAdapter.getItem(position));
 
@@ -218,8 +224,19 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
                     if(isEmpty(entrada)){
                         entrada.setError("Ingrese una cantidad valida");
                     }
-                    else{
-
+                    else {
+                        OValues combuValues = new OValues();
+                        combuValues.put("cantidad", Float.parseFloat(entrada.getText().toString()));
+                        combuValues.put("maquina_id", row.getInt("id"));
+                        combuValues.put("fecha_carga", ODateUtils.getUTCDate());
+                        int combu_row = combustible.insert(combuValues);
+                        if (combu_row != OModel.INVALID_ROW_ID) {
+                            Toast.makeText(getActivity(), "ta ta ta papu", Toast.LENGTH_SHORT).show();
+                            combustible.sync().requestSync(Combustible.AUTHORITY);
+                            cerrarDialogo = true;
+                        } else {
+                            Toast.makeText(getActivity(), "Algo salio mal, intentelo de nuevo más tarde", Toast.LENGTH_LONG).show();
+                        }
                     }
                     if (cerrarDialogo)
                         dialogoCombu.dismiss();
