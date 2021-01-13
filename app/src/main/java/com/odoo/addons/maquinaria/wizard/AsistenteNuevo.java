@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.odoo.R;
 import com.odoo.addons.maquinaria.NuevoLugar;
+import com.odoo.addons.maquinaria.models.Combustible;
 import com.odoo.addons.maquinaria.models.Destino;
 import com.odoo.addons.maquinaria.models.Maquina;
 import com.odoo.addons.maquinaria.models.Trabajo;
@@ -44,7 +45,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
     private Trabajo maquinariaTrabajoLinea;
     private Maquina maquinariaMaquina;
     private Destino maquinariaLugarTrabajo;
-
+    private Combustible combustible;
     // Modelos
     private OModel modelLugar;
     private OModel modelMaquina;
@@ -81,6 +82,18 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         maquinariaTrabajoLinea = new Trabajo(this, null);
         maquinariaMaquina = new Maquina(this, null);
         maquinariaLugarTrabajo = new Destino(this, null);
+        combustible = new Combustible(this, null);
+
+
+        OValues combuValues = new OValues();
+        combuValues.put("cantidad", 12.9);
+        int combu_row = combustible.insert(combuValues);
+        if (combu_row != OModel.INVALID_ROW_ID){
+            Toast.makeText(this, "ta ta ta papu", Toast.LENGTH_SHORT).show();
+            combustible.sync().requestSync(Combustible.AUTHORITY);
+        }else{
+            Toast.makeText(this, "sonamos papu", Toast.LENGTH_SHORT).show();
+        }
 
         user = OUser.current(this);
 
