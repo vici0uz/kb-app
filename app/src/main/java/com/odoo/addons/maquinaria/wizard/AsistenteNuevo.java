@@ -83,20 +83,6 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         maquinariaTrabajoLinea = new Trabajo(this, null);
         maquinariaMaquina = new Maquina(this, null);
         maquinariaLugarTrabajo = new Destino(this, null);
-        combustible = new Combustible(this, null);
-
-
-        OValues combuValues = new OValues();
-        combuValues.put("cantidad", 15.9);
-        combuValues.put("maquina_id", 2);
-        combuValues.put("fecha_carga", ODateUtils.getUTCDate());
-        int combu_row = combustible.insert(combuValues);
-        if (combu_row != OModel.INVALID_ROW_ID){
-            Toast.makeText(this, "ta ta ta papu", Toast.LENGTH_SHORT).show();
-            combustible.sync().requestSync(Combustible.AUTHORITY);
-        }else{
-            Toast.makeText(this, "sonamos papu", Toast.LENGTH_SHORT).show();
-        }
 
         user = OUser.current(this);
 
@@ -138,14 +124,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         recordLugares = modelLugar.select();
         rowId = extras.getInt(OColumn.ROW_ID);
         int defaultPos=0;
-//        for (ODataRow row: recordMaquinas) {
-//            String maquinaName = maquinariaMaquina.browse(row.getInt("id")).getString("name");
-//            Log.i("ALAN DEBUG: efor ", maquinaName);
-//            if (row.getInt("id").equals(rowId)){
-//                defaultPos = recordMaquinas.indexOf(row)+1;
-//            }
-//            listaMaquinas.add(maquinaName);
-//        }
+
         String maquinaName = maquinariaMaquina.browse(rowId).getString("name");
         listaMaquinas.add(maquinaName);
 
@@ -165,13 +144,7 @@ public class AsistenteNuevo extends OdooCompatActivity  implements View.OnClickL
         spinnerLugares.setAdapter(adapterSpinnerLugares);
         if (!maquinaName.isEmpty())
             spinnerMaquina.setSelection(1);
-//        for (ODataRow row: recordMaquinas) {
-////            String maquinaName = maquinariaMaquina.browse(rowId).getString("name");
-//            Log.i("ALAN DEBUG: efor ", row.getString("name"));
-//
-//        }
-//        if(defaultPos !=0)
-//            spinnerMaquina.setSelection(defaultPos);
+
 
         spinnerMaquina.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

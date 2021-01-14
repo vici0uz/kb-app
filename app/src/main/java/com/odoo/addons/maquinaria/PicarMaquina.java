@@ -48,6 +48,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private boolean turno_abierto_xp = false;
     private OValues new_values;
     private Combustible combustible;
+    private int longClickId;
 
 
 
@@ -207,35 +208,33 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
         final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setView(inflator);
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton(getString(R.string.label_ok), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-//                        Toast.makeText(getActivity(), entrada.getText().toString(), Toast.LENGTH_SHORT).show();
                     }
                 });
         final AlertDialog dialogoCombu = builder.create();
         dialogoCombu.show();
-//        builder.show();
         dialogoCombu.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     Boolean cerrarDialogo = false;
                     if(isEmpty(entrada)){
-                        entrada.setError("Ingrese una cantidad valida");
+                        entrada.setError(getString(R.string.msg_ingreso_cnt_no_valido));
                     }
                     else {
                         OValues combuValues = new OValues();
                         combuValues.put("cantidad", Float.parseFloat(entrada.getText().toString()));
-                        combuValues.put("maquina_id", row.getInt("id"));
+                        combuValues.put("maquina_id", row.get("_id"));
                         combuValues.put("fecha_carga", ODateUtils.getUTCDate());
                         int combu_row = combustible.insert(combuValues);
                         if (combu_row != OModel.INVALID_ROW_ID) {
-                            Toast.makeText(getActivity(), "ta ta ta papu", Toast.LENGTH_SHORT).show();
                             combustible.sync().requestSync(Combustible.AUTHORITY);
+                            Toast.makeText(getActivity(),getString(R.string.msg_data_saved), Toast.LENGTH_SHORT).show();
+
                             cerrarDialogo = true;
                         } else {
-                            Toast.makeText(getActivity(), "Algo salio mal, intentelo de nuevo más tarde", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), getString(R.string.toast_something_gone_wrong), Toast.LENGTH_LONG).show();
                         }
                     }
                     if (cerrarDialogo)

@@ -15,4 +15,5 @@
     <string name="label_more">Más</string>
     <string name="label_edit">Editar</string>
     <string name="pick_one_item">Seleccionar</string>
+    <string name="toast_something_gone_wrong">Algo salio mal</string>
 </resources>

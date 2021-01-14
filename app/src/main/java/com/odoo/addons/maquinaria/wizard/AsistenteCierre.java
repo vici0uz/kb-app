@@ -36,7 +36,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private OValues oValues = new OValues();
     private String newImage = null;
     private ImageView imgOdometro;
-    private EditText entradaOdometro, entradaDescripcion, entradaObservacion, entradaCombustible;
+    private EditText entradaOdometro, entradaDescripcion, entradaObservacion;
     private TextView infoRecopilada;
 
     int maquinaId;
@@ -73,7 +73,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         coordinatorLayout = (WelcomeCoordinatorLayout) findViewById(R.id.coordinator);
         coordinatorLayout.showIndicators(true);
         coordinatorLayout.setScrollingEnabled(false);
-        coordinatorLayout.addPage(R.layout.wizard_pagina_odometro, R.layout.wizard_pagina_descripcion_trabajo, R.layout.wizard_pagina_combustible, R.layout.wizard_info_confirmacion);
+        coordinatorLayout.addPage(R.layout.wizard_pagina_odometro, R.layout.wizard_pagina_descripcion_trabajo, R.layout.wizard_info_confirmacion);
 
         entradaOdometro = (EditText) findViewById(R.id.entrada_odometro);
         entradaOdometro.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
@@ -84,9 +84,6 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
         entradaDescripcion =(EditText)findViewById(R.id.text_trabajo_edit);
         entradaObservacion = (EditText)findViewById(R.id.edit_observacion);
 
-        entradaCombustible = (EditText)findViewById(R.id.entrada_combustible);
-        entradaCombustible.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-        entradaCombustible.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         findViewById(R.id.next).setOnClickListener(this);
         findViewById(R.id.back).setOnClickListener(this);
@@ -129,23 +126,13 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                                 oValues.put("tiene_observacion", true);
                             }
                             coordinatorLayout.setCurrentPage(page + 1, false);
-
+                            findViewById(R.id.next).setVisibility(View.GONE);
+                            findViewById(R.id.end).setVisibility(View.VISIBLE);
+                            String info = getInfo();
+                            infoRecopilada = (TextView) findViewById(R.id.info_recopilada);
+                            infoRecopilada.setText(info);
                         }
                         break;
-                    case 2:
-                        if(!isEmpty(entradaCombustible)){
-                            oValues.put("combustible", Float.parseFloat(entradaCombustible.getText().toString()));
-                        }
-                        coordinatorLayout.setCurrentPage(page + 1, false);
-                        // INICIALIZA INMEDIATAMENTE LA 3 PAGINA
-
-                        findViewById(R.id.next).setVisibility(View.GONE);
-                        findViewById(R.id.end).setVisibility(View.VISIBLE);
-                        String info = getInfo();
-                        infoRecopilada = (TextView) findViewById(R.id.info_recopilada);
-                        infoRecopilada.setText(info);
-                        break;
-                    case 3:
 
                 }
                 break;
@@ -216,8 +203,6 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
     private String getInfo(){
         String info = "";
         info = String.format("Odometro: %s\nTrabajo: %s\n ",oValues.getString("odometro_final"),oValues.getString("descripcion"));
-        if(!isEmpty(entradaCombustible))
-            info += String.format("Combustible: %s\n", oValues.getString("combustible"));
         if(!isEmpty(entradaObservacion))
             info += String.format("Observación: %s\n", oValues.getString("observacion"));
         return info;
