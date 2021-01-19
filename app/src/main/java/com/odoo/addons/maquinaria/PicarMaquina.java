@@ -28,6 +28,7 @@ import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
+import com.odoo.core.support.OUser;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
 import com.odoo.core.support.drawer.ODrawerItem;
@@ -49,6 +50,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private OValues new_values;
     private Combustible combustible;
     private int longClickId;
+    private OUser user;
 
 
 
@@ -73,6 +75,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
         mListaMaquinas.setOnItemClickListener(this);
         mListaMaquinas.setOnItemLongClickListener(this);
 
+        user = OUser.current(getActivity());
         getLoaderManager().initLoader(0, null, this);
     }
     @Override
@@ -227,6 +230,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
                         combuValues.put("cantidad", Float.parseFloat(entrada.getText().toString()));
                         combuValues.put("maquina_id", row.get("_id"));
                         combuValues.put("fecha_carga", ODateUtils.getUTCDate());
+                        combuValues.put("operario_id", user.getPartnerId());
                         int combu_row = combustible.insert(combuValues);
                         if (combu_row != OModel.INVALID_ROW_ID) {
                             combustible.sync().requestSync(Combustible.AUTHORITY);
