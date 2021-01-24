@@ -6,12 +6,13 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.Nullable;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.util.Log;
+import androidx.annotation.Nullable;
+//import android.support.annotation.Nullable;
+import androidx.loader.app.LoaderManager;
+import androidx.loader.content.CursorLoader;
+import androidx.loader.content.Loader;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,6 @@ import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.OValues;
-import com.odoo.core.orm.fields.types.ODateTime;
 import com.odoo.core.support.OUser;
 import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
@@ -134,8 +134,8 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
                     OControls.setGone(mView, R.id.swipe_container);
                     OControls.setVisible(mView, R.id.data_list_no_item);
                     setHasSwipeRefreshView(mView, R.id.data_list_no_item, PicarMaquina.this);
-                    OControls.setImage(mView, R.id.icon, R.drawable.ic_action_customers);
-                    OControls.setText(mView, R.id.title, _s(R.string.label_no_customer_found));
+                    OControls.setImage(mView, R.id.icon, R.drawable.ic_excavator);
+                    OControls.setText(mView, R.id.title, getString(R.string.no_maquina));
                     OControls.setText(mView, R.id.subTitle, "");
                 }
             }, 500);
@@ -149,8 +149,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public void onResume(){
         super.onResume();
-        Log.i("ALAN DEBUG: ", "volvi perras");
-//        for ODataRow in
     }
 
     @Override
@@ -175,10 +173,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
         row.getString("turno_estado");
         if (row.getString("turno_estado").equals("close") || row.getString("turno_estado") == "false"){
-//            if(turno_abierto_xp != true)
                 IntentUtils.startActivity(getActivity(), AsistenteNuevo.class, data);
-//            else
-//                Toast.makeText(getActivity(), "Primero debe cerrar los turnos que ya haya abierto", Toast.LENGTH_LONG).show();
         }else {
             IntentUtils.startActivity(getActivity(), AsistenteCierre.class, data);
         }
@@ -197,9 +192,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-
-//        Toast.makeText(getActivity(), "Joder alan", Toast.LENGTH_SHORT).show();
-//        float cantidad;
 
         combustible = new Combustible(getActivity(), null);
 

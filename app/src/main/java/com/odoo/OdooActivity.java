@@ -30,12 +30,13 @@ import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.ActionBarDrawerToggle;
+import androidx.fragment.app.Fragment;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.legacy.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+//import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -151,36 +152,36 @@ public class OdooActivity extends OdooCompatActivity {
     // Creating drawer
     private void setupDrawer() {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name) {
-
-            @Override
-            public void onDrawerClosed(View drawerView) {
-                super.onDrawerClosed(drawerView);
-                setTitle(getResources().getString(R.string.app_name));
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerOpened(View drawerView) {
-                super.onDrawerOpened(drawerView);
-                invalidateOptionsMenu();
-                setTitle(R.string.app_name);
-            }
-
-            @Override
-            public void onDrawerStateChanged(int newState) {
-                super.onDrawerStateChanged(newState);
-                invalidateOptionsMenu();
-            }
-
-            @Override
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, slideOffset);
-                invalidateOptionsMenu();
-            }
-        };
-        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
-        mDrawerToggle.syncState();
+//        mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.app_name, R.string.app_name) {
+//
+//            @Override
+//            public void onDrawerClosed(View drawerView) {
+//                super.onDrawerClosed(drawerView);
+//                setTitle(getResources().getString(R.string.app_name));
+//                invalidateOptionsMenu();
+//            }
+//
+//            @Override
+//            public void onDrawerOpened(View drawerView) {
+//                super.onDrawerOpened(drawerView);
+//                invalidateOptionsMenu();
+//                setTitle(R.string.app_name);
+//            }
+//
+//            @Override
+//            public void onDrawerStateChanged(int newState) {
+//                super.onDrawerStateChanged(newState);
+//                invalidateOptionsMenu();
+//            }
+//
+//            @Override
+//            public void onDrawerSlide(View drawerView, float slideOffset) {
+//                super.onDrawerSlide(drawerView, slideOffset);
+//                invalidateOptionsMenu();
+//            }
+//        };
+//        mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, GravityCompat.START);
+//        mDrawerToggle.syncState();
 
         setupAccountBox();
         setupDrawerBox();
@@ -246,7 +247,7 @@ public class OdooActivity extends OdooCompatActivity {
                 if (cls.getSuperclass().isAssignableFrom(Activity.class)) {
                     intent = new Intent(this, cls);
                 }
-                if (cls.getSuperclass().isAssignableFrom(ActionBarActivity.class)) {
+                if (cls.getSuperclass().isAssignableFrom(AppCompatActivity.class)) {
                     intent = new Intent(this, cls);
                 }
                 if (intent != null) {

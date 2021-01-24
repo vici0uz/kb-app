@@ -1,8 +1,9 @@
 package com.odoo.addons.maquinaria;
 
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
+//import android.support.annotation.Nullable;
 import android.view.View;
 
 public class UpdateFragment extends DialogFragment {

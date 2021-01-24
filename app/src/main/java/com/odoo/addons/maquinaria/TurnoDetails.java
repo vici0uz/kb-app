@@ -3,7 +3,8 @@ package com.odoo.addons.maquinaria;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
+import com.google.android.material.appbar.CollapsingToolbarLayout;
+//import android.support.design.widget.CollapsingToolbarLayout;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +21,7 @@ import com.odoo.core.orm.OValues;
 import com.odoo.core.orm.fields.OColumn;
 import com.odoo.core.support.OdooCompatActivity;
 import com.odoo.core.utils.OStringColorUtil;
-import android.support.v7.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
 import android.widget.Toast;
 
 

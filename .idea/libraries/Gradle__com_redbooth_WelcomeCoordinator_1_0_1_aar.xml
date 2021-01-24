@@ -1,9 +1,9 @@
 <component name="libraryTable">
   <library name="Gradle: com.redbooth:WelcomeCoordinator:1.0.1@aar">
     <CLASSES>
-      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/WelcomeCoordinator-1.0.1.aar/750ce717d6f2e50bd38c16ddbd76efa7/jars/classes.jar!/" />
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/WelcomeCoordinator-1.0.1.aar/750ce717d6f2e50bd38c16ddbd76efa7/res" />
-      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/WelcomeCoordinator-1.0.1.aar/750ce717d6f2e50bd38c16ddbd76efa7/AndroidManifest.xml" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/jetified-WelcomeCoordinator-1.0.1.aar/4524b7b6ea6b2db11f8944f42d60aa11/AndroidManifest.xml" />
+      <root url="jar://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/jetified-WelcomeCoordinator-1.0.1.aar/4524b7b6ea6b2db11f8944f42d60aa11/jars/classes.jar!/" />
+      <root url="file://$PROJECT_DIR$/../.gradle/caches/transforms-1/files-1.1/jetified-WelcomeCoordinator-1.0.1.aar/4524b7b6ea6b2db11f8944f42d60aa11/res" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

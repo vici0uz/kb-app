@@ -33,7 +33,7 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
-import android.support.annotation.RequiresApi;
+import androidx.annotation.RequiresApi;
 import android.text.TextPaint;
 import android.util.Base64;
 import android.util.Log;
