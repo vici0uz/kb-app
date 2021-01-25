@@ -45,7 +45,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
         List<ODrawerItem> items = new ArrayList<>();
 //        String key = "base.settings";
         items.add(new ODrawerItem(KEY).setTitle("Escoger una maquina").setIcon(R.drawable.ic_excavator).setInstance(new PicarMaquina()));
-        items.add(new ODrawerItem(KEY).setTitle("Turnos").setIcon(R.drawable.ic_baseline_history_toggle_off_24).setInstance(new Maquinaria()));
+//        items.add(new ODrawerItem(KEY).setTitle("Turnos").setIcon(R.drawable.ic_baseline_history_toggle_off_24).setInstance(new Maquinaria()));
         items.add(new ODrawerItem(KEY).setTitle("Actualizar app").setIcon(R.drawable.ic_baseline_system_update_24).setInstance(CustomUpdate.class));
         return items;
     }
@@ -89,12 +89,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                 OControls.setGone(view, R.id.turno_fijado);
                 break;
         }
-//        Log.i("ALAN DEBUG", row.getString("maquina"));
         OControls.setText(view, R.id.maquina, row.getString("maquina"));
-//        OControls.setText(view, R.id.company_name, (row.getString("company_name").equals("false"))
-//                ? "" : row.getString("company_name"));
-//        OControls.setText(view, R.id.email, (row.getString("email").equals("false") ? " "
-//                : row.getString("email")));
     }
 
     @Override
@@ -160,7 +155,7 @@ public class Maquinaria extends BaseFragment implements View.OnClickListener, Lo
                     OControls.setVisible(mView, R.id.data_list_no_item);
                     setHasSwipeRefreshView(mView, R.id.data_list_no_item, Maquinaria.this);
                     OControls.setImage(mView, R.id.icon, R.drawable.ic_action_customers);
-                    OControls.setText(mView, R.id.title, _s(R.string.label_no_customer_found));
+                    OControls.setText(mView, R.id.title, R.string.no_maquina);
                     OControls.setText(mView, R.id.subTitle, "");
                     OControls.setGone(mView, R.id.fabButton);
                 }

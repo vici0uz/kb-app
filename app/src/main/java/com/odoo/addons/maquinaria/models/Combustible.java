@@ -1,6 +1,7 @@
 package com.odoo.addons.maquinaria.models;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 
 import com.odoo.BuildConfig;
 import com.odoo.base.addons.res.ResPartner;
@@ -24,5 +25,9 @@ public class Combustible extends OModel {
         super(context, "maquinaria.combustible.carga", user);
     }
 
+    @Override
+    public void onModelUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Execute upgrade script
+    }
 
 }

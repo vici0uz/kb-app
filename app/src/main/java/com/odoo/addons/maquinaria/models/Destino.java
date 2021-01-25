@@ -1,6 +1,7 @@
 package com.odoo.addons.maquinaria.models;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.odoo.BuildConfig;
@@ -29,6 +30,9 @@ public class Destino extends OModel {
         return true;
     }
 
-
+    @Override
+    public void onModelUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Execute upgrade script
+    }
 
 }

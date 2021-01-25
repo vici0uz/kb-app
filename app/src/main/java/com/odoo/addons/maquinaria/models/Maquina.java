@@ -1,11 +1,13 @@
 package com.odoo.addons.maquinaria.models;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 
 import com.odoo.BuildConfig;
 import com.odoo.core.orm.OModel;
 import com.odoo.core.orm.fields.OColumn;
+import com.odoo.core.orm.fields.types.OFloat;
 import com.odoo.core.orm.fields.types.OSelection;
 import com.odoo.core.orm.fields.types.OVarchar;
 import com.odoo.core.support.OUser;
@@ -22,6 +24,7 @@ public class Maquina extends OModel {
             .setDefaultValue("close")
             .setLocalColumn();
     OColumn turno_abierto_id = new OColumn("Ultimo turno abierto", Trabajo.class,  OColumn.RelationType.ManyToOne).setLocalColumn();
+    OColumn ultimo_odometro = new OColumn("Ultimo odometro", OFloat.class);
 
     @Override
     public Uri uri() {
@@ -31,5 +34,10 @@ public class Maquina extends OModel {
     public Maquina(Context context, OUser user)
     {
         super(context, "maquinaria.maquina", user);
+    }
+
+    @Override
+    public void onModelUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // Execute upgrade script
     }
 }

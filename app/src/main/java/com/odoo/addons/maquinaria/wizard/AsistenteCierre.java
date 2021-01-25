@@ -159,6 +159,7 @@ public class AsistenteCierre extends OdooCompatActivity implements View.OnClickL
                         turnoTrabajo.update(turno_id, oValues);
                         OValues maquinaVals = new OValues();
                         maquinaVals.put("turno_estado", "close");
+                        maquinaVals.put("cerrado","true");
                         maquinaVals.put("turno_abierto_id", null);
                         maquinariaMaquina.update(maquinaId, maquinaVals);
                         maquinariaMaquina.sync().requestSync(Maquina.AUTHORITY);

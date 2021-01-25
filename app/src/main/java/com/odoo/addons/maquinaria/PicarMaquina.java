@@ -98,6 +98,7 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
             view.findViewById(R.id.linear_root).setBackgroundColor(getResources().getColor(R.color.android_orange));
             view.findViewById(R.id.turno_abierto_indicator).setVisibility(View.VISIBLE);
             turno_abierto_xp = true;
+            getLoaderManager().restartLoader(0,null, this);
         }
 
     }
@@ -106,6 +107,10 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     public Loader<Cursor> onCreateLoader(int id, Bundle data) {
         String where = "";
         List<String> args = new ArrayList<>();
+        if (turno_abierto_xp == true){
+            where += " turno_estado like ?";
+            args.add("%"+ "open"+ "%");
+        }
         String selection = (args.size() > 0) ? where : null;
         String[] selectionArgs = (args.size() > 0) ? args.toArray(new String[args.size()]) : null;
         return new CursorLoader(getActivity(), db().uri(), null, selection, selectionArgs, "name" );
