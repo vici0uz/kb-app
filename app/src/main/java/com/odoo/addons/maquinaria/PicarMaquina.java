@@ -23,7 +23,9 @@ import android.widget.Toast;
 
 import com.odoo.R;
 import com.odoo.addons.maquinaria.models.Combustible;
+import com.odoo.addons.maquinaria.models.Destino;
 import com.odoo.addons.maquinaria.models.Maquina;
+import com.odoo.addons.maquinaria.models.Trabajo;
 import com.odoo.addons.maquinaria.wizard.AsistenteCierre;
 import com.odoo.addons.maquinaria.wizard.AsistenteNuevo;
 import com.odoo.core.orm.ODataRow;
@@ -160,6 +162,8 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     public void onRefresh() {
         if (inNetwork()) {
             parent().sync().requestSync(Maquina.AUTHORITY);
+            parent().sync().requestSync(Destino.AUTHORITY);
+            parent().sync().requestSync(Trabajo.AUTHORITY);
             setSwipeRefreshing(true);
         } else {
             hideRefreshingProgress();
