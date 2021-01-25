@@ -46,6 +46,7 @@ dependencies {
     implementation 'com.android.volley:volley:1.0.0'
     implementation 'com.redbooth:WelcomeCoordinator:1.0.1'
 //    implementation 'com.github.TutorialsAndroid:AppXUpdater:v2.0.20'
-
+    implementation 'com.squareup.okhttp3:okhttp:4.4.0'
+    implementation 'com.github.javiersantos:AppUpdater:2.7'
     implementation project(':intro-slider-lib')
 }

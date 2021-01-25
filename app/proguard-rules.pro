@@ -43,4 +43,10 @@
 -dontobfuscate
 -keep class * extends com.odoo.core.orm.OModel{*;}
 # Searchview v4
--keep class android.support.v7.widget.SearchView { *; }
+#-keep class android.support.v7.widget.SearchView { *; }
+-dontwarn okio.**
+-keep class okhttp3.** { *; }
+
+-keep interface okhttp3.** { *; }
+
+-dontwarn okhttp3.**

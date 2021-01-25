@@ -1,16 +1,14 @@
 package com.odoo.addons.maquinaria;
 
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
 import androidx.appcompat.app.AppCompatActivity;
-//import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.github.javiersantos.appupdater.AppUpdater;
+import com.github.javiersantos.appupdater.enums.Display;
+import com.github.javiersantos.appupdater.enums.UpdateFrom;
 import com.odoo.R;
-
-import static com.odoo.R.id.sape;
 
 //import static com.odoo.R.id.sape;
 
@@ -21,14 +19,23 @@ public class CustomUpdate extends AppCompatActivity implements View.OnClickListe
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.update_activity);
-        Button button = (Button) findViewById(sape);
+        Button button = (Button) findViewById(R.id.btn_buscar_actualizacion);
         button.setOnClickListener(this);
     }
 
 
     @Override
     public void onClick(View v) {
-        Log.i("ALAN DEBUG: ", "hoal alan");
+        switch (v.getId()){
+            case R.id.btn_buscar_actualizacion:
+                new AppUpdater(this)
+                        .setUpdateFrom(UpdateFrom.JSON)
+                        .setDisplay(Display.DIALOG)
+                        .showAppUpdated(true)
+                        .setUpdateJSON("http://www.xiton.net/app/update.json")
+                        .start();
+                break;
+        }
 //        AppUpdater appUpdater
     }
 }
