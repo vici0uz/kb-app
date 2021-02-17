@@ -1,6 +1,8 @@
 package com.odoo.addons.maquinaria;
 
+import android.accounts.Account;
 import android.app.AlertDialog;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.database.Cursor;
@@ -36,6 +38,7 @@ import com.odoo.core.support.addons.fragment.BaseFragment;
 import com.odoo.core.support.addons.fragment.ISyncStatusObserverListener;
 import com.odoo.core.support.drawer.ODrawerItem;
 import com.odoo.core.support.list.OCursorListAdapter;
+import com.odoo.core.support.sync.SyncUtils;
 import com.odoo.core.utils.IntentUtils;
 import com.odoo.core.utils.OControls;
 import com.odoo.core.utils.OCursorUtils;
@@ -56,7 +59,6 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     private OUser user;
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -69,6 +71,15 @@ public class PicarMaquina extends BaseFragment implements OCursorListAdapter.OnV
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+//        Account account = getU
+//        mUser = (user != null) ? user : OUser.current(context);
+
+//        ContentResolver.setSyncAutomatically(, Maquina.AUTHORITY, true);
+        SyncUtils su = new SyncUtils(getActivity().getApplicationContext(), null);
+        su.setAutoSync(Maquina.AUTHORITY, true);
+        su.setAutoSync(Combustible.AUTHORITY, true);
+        su.setAutoSync(Destino.AUTHORITY, true);
+        su.setAutoSync(Trabajo.AUTHORITY, true);
         mView = view;
         mView.findViewById(R.id.fabButton).setVisibility(View.GONE);
         ListView mListaMaquinas = (ListView) view.findViewById(R.id.listview);
